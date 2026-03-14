@@ -1,0 +1,999 @@
+/* ============================================================
+   tracking.css — ProposalCraft Tracking Page
+   Uses ONLY your existing app.css design tokens:
+   --accent, --ink-*, --gold, --green, --red, --orange,
+   --font-display (DM Serif Display), --font-body (DM Sans),
+   --radius-*, --shadow-*, --transition
+   No custom fonts. No foreign colors.
+   ============================================================ */
+
+/* ── PAGE HEADER ─────────────────────────────────────────────── */
+.trk-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--ink-10);
+    flex-wrap: wrap;
+}
+.trk-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.375rem;
+}
+.trk-eyebrow::before {
+    content: "";
+    width: 18px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+.trk-h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0;
+}
+.trk-h1 span {
+    color: var(--accent);
+}
+.trk-sub {
+    font-family: var(--font-body);
+    font-size: 0.845rem;
+    color: var(--ink-50);
+    margin-top: 0.35rem;
+    font-weight: 400;
+}
+.trk-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+}
+
+/* Date range select */
+.trk-daterange {
+    padding: 0.5rem 2.125rem 0.5rem 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink-80);
+    background: var(--paper);
+    border: 1.5px solid var(--ink-20);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7f8e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-color: var(--paper);
+}
+.trk-daterange:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.btn-trk-export {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.125rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 2px 12px var(--accent-glow);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.btn-trk-export:hover {
+    background: var(--accent-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px var(--accent-glow);
+    color: #fff;
+}
+
+/* ── STAT CARDS ───────────────────────────────────────────────── */
+.trk-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.trk-stat {
+    background: #fff;
+    border: 1px solid var(--ink-10);
+    border-radius: var(--radius-lg);
+    padding: 1.375rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    animation: trkStatIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.trk-stat:nth-child(1) {
+    animation-delay: 0.04s;
+}
+.trk-stat:nth-child(2) {
+    animation-delay: 0.09s;
+}
+.trk-stat:nth-child(3) {
+    animation-delay: 0.14s;
+}
+.trk-stat:nth-child(4) {
+    animation-delay: 0.19s;
+}
+@keyframes trkStatIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.trk-stat:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-3px);
+}
+
+/* Top accent line per card type */
+.trk-stat::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.trk-stat--blue::before {
+    background: var(--accent);
+}
+.trk-stat--orange::before {
+    background: var(--orange);
+}
+.trk-stat--green::before {
+    background: var(--green);
+}
+.trk-stat--gold::before {
+    background: var(--gold);
+}
+
+.trk-stat-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.875rem;
+}
+.trk-stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.trk-stat--blue .trk-stat-icon {
+    background: var(--accent-dim);
+    color: var(--accent);
+}
+.trk-stat--orange .trk-stat-icon {
+    background: var(--orange-dim);
+    color: var(--orange);
+}
+.trk-stat--green .trk-stat-icon {
+    background: var(--green-dim);
+    color: var(--green);
+}
+.trk-stat--gold .trk-stat-icon {
+    background: var(--gold-dim);
+    color: var(--gold);
+}
+
+.trk-stat-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+.trk-stat-delta.up {
+    background: var(--green-dim);
+    color: var(--green);
+}
+.trk-stat-delta.down {
+    background: var(--red-dim);
+    color: var(--red);
+}
+.trk-stat-delta.flat {
+    background: var(--ink-05);
+    color: var(--ink-50);
+}
+
+.trk-stat-val {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.trk-stat-label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    font-weight: 500;
+}
+
+/* Sparkbar */
+.trk-sparkbar {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 26px;
+    margin-top: 0.875rem;
+}
+.trk-sparkbar-col {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    min-height: 4px;
+    background: var(--ink-10);
+    transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.trk-stat--blue .trk-sparkbar-col.hi {
+    background: var(--accent);
+}
+.trk-stat--orange .trk-sparkbar-col.hi {
+    background: var(--orange);
+}
+.trk-stat--green .trk-sparkbar-col.hi {
+    background: var(--green);
+}
+.trk-stat--gold .trk-sparkbar-col.hi {
+    background: var(--gold);
+}
+.trk-stat--blue .trk-sparkbar-col {
+    background: var(--accent-dim);
+}
+.trk-stat--orange .trk-sparkbar-col {
+    background: var(--orange-dim);
+}
+.trk-stat--green .trk-sparkbar-col {
+    background: var(--green-dim);
+}
+.trk-stat--gold .trk-sparkbar-col {
+    background: var(--gold-dim);
+}
+
+/* ── LAYOUT ───────────────────────────────────────────────────── */
+.trk-main {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.trk-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── PANEL ────────────────────────────────────────────────────── */
+.trk-panel {
+    background: #fff;
+    border: 1px solid var(--ink-10);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    animation: trkPanelIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes trkPanelIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.trk-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--ink-10);
+    background: var(--ink-05);
+    gap: 0.5rem;
+}
+.trk-panel-title {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+.trk-panel-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.625rem;
+    background: #fff;
+    border: 1px solid var(--ink-10);
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-50);
+}
+
+/* ── TOOLBAR ──────────────────────────────────────────────────── */
+.trk-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--ink-10);
+    flex-wrap: wrap;
+}
+.trk-filter-track {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+.trk-fpill {
+    padding: 0.35rem 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-60);
+    background: var(--ink-05);
+    border: 1.5px solid var(--ink-10);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+.trk-fpill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+.trk-fpill.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+.trk-search-wrap {
+    position: relative;
+}
+.trk-search-ico {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-30);
+    pointer-events: none;
+}
+.trk-search-input {
+    width: 190px;
+    padding: 0.45rem 0.875rem 0.45rem 2.125rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--ink-20);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: var(--transition);
+}
+.trk-search-input::placeholder {
+    color: var(--ink-30);
+}
+.trk-search-input:focus {
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 3px var(--accent-dim);
+    width: 230px;
+}
+
+/* ── TABLE ────────────────────────────────────────────────────── */
+.trk-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.trk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    min-width: 580px;
+}
+.trk-table thead th {
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    background: var(--ink-05);
+    border-bottom: 1px solid var(--ink-10);
+    text-align: left;
+    white-space: nowrap;
+}
+.trk-table thead th:first-child {
+    padding-left: 1.5rem;
+}
+.trk-table thead th:last-child {
+    text-align: right;
+    padding-right: 1.5rem;
+}
+
+.trk-table tbody tr {
+    border-bottom: 1px solid var(--ink-10);
+    transition: var(--transition);
+}
+.trk-table tbody tr:last-child {
+    border-bottom: none;
+}
+.trk-table tbody tr:hover td {
+    background: var(--ink-05);
+}
+
+.trk-table tbody td {
+    padding: 0.9375rem 1rem;
+    font-size: 0.875rem;
+    color: var(--ink-80);
+    vertical-align: middle;
+}
+.trk-table tbody td:first-child {
+    padding-left: 1.5rem;
+}
+.trk-table tbody td:last-child {
+    text-align: right;
+    padding-right: 1.5rem;
+}
+
+/* Proposal name cell */
+.trk-prop-name {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    display: block;
+    line-height: 1.3;
+}
+.trk-prop-client {
+    font-size: 0.775rem;
+    color: var(--ink-50);
+    margin-top: 0.1rem;
+    display: block;
+}
+
+/* Status badges — reuse your existing badge tokens */
+.trk-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+.trk-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: currentColor;
+}
+.trk-status--sent {
+    background: var(--accent-dim);
+    color: var(--accent);
+}
+.trk-status--viewed {
+    background: var(--orange-dim);
+    color: var(--orange);
+}
+.trk-status--accepted {
+    background: var(--green-dim);
+    color: var(--green);
+}
+.trk-status--declined {
+    background: var(--red-dim);
+    color: var(--red);
+}
+.trk-status--draft {
+    background: var(--ink-05);
+    color: var(--ink-50);
+}
+
+/* Pulse dot for "viewed" — actively being read */
+.trk-status--viewed::before {
+    animation: trkPulse 1.8s infinite;
+}
+@keyframes trkPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(234, 88, 12, 0);
+    }
+}
+
+/* Views bar */
+.trk-views {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.trk-views-bar {
+    flex: 1;
+    max-width: 56px;
+    height: 5px;
+    background: var(--ink-10);
+    border-radius: 100px;
+    overflow: hidden;
+}
+.trk-views-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--accent);
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.trk-views-num {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-60);
+    min-width: 16px;
+}
+
+/* Activity */
+.trk-activity {
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    white-space: nowrap;
+}
+.trk-activity strong {
+    color: var(--ink-80);
+    font-weight: 600;
+}
+
+/* Amount */
+.trk-amount {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+/* Row CTA */
+.trk-row-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(26, 86, 240, 0.18);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+.trk-row-action:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+/* Empty state */
+.trk-table-empty {
+    padding: 3.5rem 2rem;
+    text-align: center;
+}
+.trk-table-empty-t {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    color: var(--ink-50);
+    margin-bottom: 0.35rem;
+}
+.trk-table-empty-s {
+    font-size: 0.8125rem;
+    color: var(--ink-30);
+    font-family: var(--font-body);
+}
+
+/* Pagination */
+.trk-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid var(--ink-10);
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.trk-page-info {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+}
+
+/* ── SIDEBAR ──────────────────────────────────────────────────── */
+.trk-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Activity feed */
+.trk-feed-list {
+    display: flex;
+    flex-direction: column;
+}
+.trk-feed-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--ink-10);
+    transition: var(--transition);
+}
+.trk-feed-item:last-child {
+    border-bottom: none;
+}
+.trk-feed-item:hover {
+    background: var(--ink-05);
+}
+
+.trk-feed-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.trk-feed-dot--view {
+    background: var(--orange-dim);
+    color: var(--orange);
+}
+.trk-feed-dot--accept {
+    background: var(--green-dim);
+    color: var(--green);
+}
+.trk-feed-dot--decline {
+    background: var(--red-dim);
+    color: var(--red);
+}
+.trk-feed-dot--send {
+    background: var(--accent-dim);
+    color: var(--accent);
+}
+.trk-feed-dot--open {
+    background: var(--gold-dim);
+    color: var(--gold);
+}
+
+.trk-feed-body {
+    flex: 1;
+    min-width: 0;
+}
+.trk-feed-text {
+    font-family: var(--font-body);
+    font-size: 0.8375rem;
+    color: var(--ink-80);
+    line-height: 1.5;
+}
+.trk-feed-text strong {
+    font-weight: 600;
+    color: var(--ink);
+}
+.trk-feed-time {
+    font-size: 0.75rem;
+    color: var(--ink-30);
+    margin-top: 0.2rem;
+    font-family: var(--font-body);
+}
+
+/* Win rate donut */
+.trk-donut-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
+    gap: 1.125rem;
+}
+.trk-donut-svg {
+    overflow: visible;
+}
+.trk-donut-track {
+    fill: none;
+    stroke: var(--ink-10);
+    stroke-width: 10;
+}
+.trk-donut-fill {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.trk-donut-center-val {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    fill: var(--ink);
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+.trk-donut-center-sub {
+    font-family: var(--font-body);
+    font-size: 0.55rem;
+    fill: var(--ink-50);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-anchor: middle;
+    dominant-baseline: central;
+    text-transform: uppercase;
+}
+.trk-donut-legend {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.trk-legend-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.trk-legend-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.trk-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.trk-legend-label {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    font-weight: 500;
+}
+.trk-legend-val {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+/* ── BAR CHART ────────────────────────────────────────────────── */
+.trk-bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 100px;
+    padding: 0 1.25rem 1.25rem;
+}
+.trk-bar-grp {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+}
+.trk-bar-cols {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    flex: 1;
+    width: 100%;
+}
+.trk-bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    min-height: 4px;
+    cursor: default;
+    transition: opacity 0.18s;
+}
+.trk-bar:hover {
+    opacity: 0.75;
+}
+.trk-bar--sent {
+    background: var(--accent);
+    opacity: 0.55;
+}
+.trk-bar--accepted {
+    background: var(--green);
+}
+.trk-bar-lbl {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    color: var(--ink-30);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.trk-chart-legend {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0 1.25rem 0.875rem;
+}
+.trk-chart-leg-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: var(--font-body);
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--ink-50);
+}
+.trk-chart-leg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* ── TOP CLIENTS ──────────────────────────────────────────────── */
+.trk-clients-list {
+    display: flex;
+    flex-direction: column;
+}
+.trk-client-row {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--ink-10);
+    transition: var(--transition);
+}
+.trk-client-row:last-child {
+    border-bottom: none;
+}
+.trk-client-row:hover {
+    background: var(--ink-05);
+}
+
+.trk-client-rank {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    color: var(--ink-20);
+    width: 20px;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1;
+}
+.trk-client-rank.top {
+    color: var(--gold);
+}
+
+.trk-client-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: #fff;
+}
+.trk-client-info {
+    flex: 1;
+    min-width: 0;
+}
+.trk-client-name {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.trk-client-proposals {
+    font-size: 0.775rem;
+    color: var(--ink-50);
+    margin-top: 0.1rem;
+}
+.trk-client-val {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────── */
+@media (max-width: 1199px) {
+    .trk-main {
+        grid-template-columns: 1fr 280px;
+    }
+}
+@media (max-width: 991px) {
+    .trk-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .trk-main {
+        grid-template-columns: 1fr;
+    }
+    .trk-bottom {
+        grid-template-columns: 1fr;
+    }
+    .trk-sidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .trk-sidebar .trk-panel {
+        flex: 1 1 280px;
+    }
+    .trk-header-right {
+        display: none;
+    }
+}
+@media (max-width: 767px) {
+    .trk-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    .trk-table thead th:nth-child(4),
+    .trk-table td:nth-child(4),
+    .trk-table thead th:nth-child(5),
+    .trk-table td:nth-child(5) {
+        display: none;
+    }
+}
+@media (max-width: 480px) {
+    .trk-stats {
+        grid-template-columns: 1fr;
+    }
+}

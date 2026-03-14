@@ -1,0 +1,255 @@
+
+
+Implement a **premium, production-grade UI** that feels like it was built by the same team behind Apple, Stripe, and Vercel. Every pixel must be intentional. Every interaction must be purposeful. Every component must be reusable.
+
+---
+
+## 🔤 TYPOGRAPHY — NON-NEGOTIABLE
+
+**Load these fonts exactly as written — do not change, abbreviate, or swap:**
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+```
+
+```css
+--font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+--font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
+```
+
+**Rules:**
+- `font-family: var(--font-display)` → ALL headings (h1–h3), display numbers, card titles, CTA titles
+- `font-family: var(--font-body)` → ALL body text, labels, buttons, badges, nav, captions, inputs
+- Every display heading uses `clamp()` for fluid responsive scaling
+- Italic `em` spans inside headings use `font-style: italic` for editorial elegance
+
+**Typography Scale:**
+```css
+H1 Hero:    clamp(2.75rem, 5.5vw, 5.25rem)  | weight: 400 | ls: -.035em | lh: 1.06
+H2 Section: clamp(2rem, 3.5vw, 3.125rem)    | weight: 400 | ls: -.030em | lh: 1.12
+H3 Card:    clamp(1.25rem, 2vw, 1.625rem)   | weight: 400 | ls: -.020em | lh: 1.20
+Lead:       clamp(1rem, 1.4vw, 1.15rem)     | weight: 400 | lh: 1.85
+Body:       1rem                             | weight: 400 | lh: 1.75
+Label/Meta: 0.8125rem                        | weight: 600
+Eyebrow:    0.7rem                           | weight: 700 | ls: .14em | uppercase
+```
+
+---
+
+## 🎨 COLOR TOKENS — DO NOT ALTER
+
+```css
+:root {
+  /* Ink Scale */
+  --ink:          #0D0F14;
+  --ink-80:       #2B2F3A;
+  --ink-60:       #4A5068;
+  --ink-50:       #7A7F8E;
+  --ink-30:       #B0B4C0;
+  --ink-20:       #D4D6DC;
+  --ink-10:       #ECEEF2;
+  --ink-05:       #F4F5F7;
+  --paper:        #FAFAF9;
+  --white:        #FFFFFF;
+
+  /* Brand */
+  --accent:       #1A56F0;
+  --accent-dark:  #1240CC;
+  --accent-light: #4D78F5;
+  --accent-dim:   #EBF0FE;
+  --accent-glow:  rgba(26,86,240,.18);
+
+  /* Semantic */
+  --gold:         #E8A838;   --gold-dim:    #FDF5E6;
+  --emerald:      #0DBD7F;   --emerald-dim: #E5FAF4;
+  --rose:         #F04060;   --rose-dim:    #FEEAEE;
+  --green:        #1A7A45;   --green-dim:   #E8FAF0;
+  --orange:       #EA580C;   --orange-dim:  #FFF7ED;
+}
+```
+
+**Section backgrounds:**
+- Hero sections → `var(--ink)` (dark)
+- Feature / content → `var(--white)`
+- Alternate rows → `var(--ink-05)` or `var(--paper)`
+- Dark feature sections → `var(--ink)` with radial gradient overlay
+
+---
+
+## 📐 SPACING, RADIUS & SHADOWS
+
+```css
+/* Radius */
+--r-xs: 4px;  --r-sm: 8px;  --r-md: 14px;
+--r-lg: 24px; --r-xl: 40px; --r-pill: 9999px;
+
+/* Shadows */
+--shadow-xs:     0 1px 4px rgba(13,15,20,.05);
+--shadow-sm:     0 2px 12px rgba(13,15,20,.07);
+--shadow-md:     0 8px 32px rgba(13,15,20,.10);
+--shadow-lg:     0 24px 64px rgba(13,15,20,.13);
+--shadow-xl:     0 40px 100px rgba(13,15,20,.16);
+--shadow-accent: 0 8px 40px rgba(26,86,240,.22);
+
+/* Section padding */
+Full sections:  padding: 7rem 0;
+Container:      max-width: 1200px; padding: 0 2rem;
+```
+
+---
+
+## ⚡ MOTION SYSTEM
+
+```css
+--ease-out:    cubic-bezier(.16,1,.3,1);
+--ease-io:     cubic-bezier(.4,0,.2,1);
+--ease-spring: cubic-bezier(.34,1.56,.64,1);
+--t-fast:   .15s var(--ease-io);
+--t-base:   .25s var(--ease-io);
+--t-slow:   .45s var(--ease-out);
+--t-spring: .40s var(--ease-spring);
+```
+
+**Scroll reveal (mandatory on every section):**
+```css
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .65s var(--ease-out), transform .65s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1{transition-delay:.08s} .d2{transition-delay:.16s}
+.d3{transition-delay:.24s} .d4{transition-delay:.32s}
+```
+
+**Keyframes to always include:**
+- `fadeInUp` — hero elements entering on load
+- `floatY` — floating cards / hero decoration
+- `pulseDot` — live status indicator
+- `orbFloat` — ambient gradient orbs in dark sections
+
+---
+
+## 🧩 COMPONENT PATTERNS
+
+### Section Header (mandatory structure)
+```html
+<div class="pc-section-eyebrow">Label Text</div>
+<h2 class="pc-section-heading">Main title<br><em>with italic accent.</em></h2>
+<p class="pc-lead">Supporting description, max ~52ch wide.</p>
+```
+Eyebrow has `::before` pseudo-element: a 22×2px accent bar in `currentColor`.
+
+### Buttons
+| Class | Use case |
+|---|---|
+| `.btn-primary` | Main CTA — filled blue, shadow-accent |
+| `.btn-primary.btn-sm` | Compact CTA |
+| `.btn-outline-white` | Ghost CTA on dark backgrounds |
+| `.btn-outline` | Secondary on light backgrounds |
+| `.btn-ghost` | Tertiary / navigation |
+| `.btn-danger` | Destructive action — rose tones |
+
+All buttons: `inline-flex`, `align-items:center`, `gap:.5rem`, 44px+ touch target, `font-family: var(--font-body)`, `font-weight:700`, `border-radius: var(--r-md)`.
+
+### Cards
+```css
+/* Standard card */
+background: var(--white);
+border: 1px solid var(--ink-10);
+border-radius: var(--r-lg);
+padding: 1.75rem;
+box-shadow: var(--shadow-xs);
+transition: transform var(--t-slow), box-shadow var(--t-slow);
+/* Hover */
+transform: translateY(-5px);
+box-shadow: var(--shadow-lg);
+```
+
+### Status Badges (pill style)
+```css
+display: inline-flex; align-items: center; gap: .35rem;
+padding: .25rem .75rem; border-radius: var(--r-pill);
+font-family: var(--font-body); font-size: .75rem; font-weight: 700;
+```
+Colors: use `--*-dim` for background, full color for text.
+
+### Form Controls
+```css
+border: 1.5px solid var(--ink-20);
+border-radius: var(--r-sm);
+font-family: var(--font-body);
+font-size: .9375rem;
+padding: .75rem 1rem;
+/* Focus */
+border-color: var(--accent);
+box-shadow: 0 0 0 3px var(--accent-glow);
+```
+
+### Dark Section Treatment
+```css
+background: var(--ink);
+/* Radial glow overlay */
+background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,86,240,.12) 0%, transparent 60%);
+/* Dot grid texture */
+background-image: radial-gradient(circle, rgba(255,255,255,.045) 1px, transparent 1px);
+background-size: 32px 32px;
+/* Top accent line */
+::after { height:2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+```
+
+---
+
+## 📱 RESPONSIVE BREAKPOINTS
+
+| Breakpoint | Target |
+|---|---|
+| `1200px` | Desktop — hide floating decorations |
+| `991px` | Tablet — collapse to 2-col grids, hide sidebar |
+| `767px` | Mobile landscape — single column, adjust stats |
+| `575px` | Mobile portrait — reduce padding, stack CTAs |
+
+**Rules:** No horizontal scroll. All images `max-width:100%`. Minimum 44px touch targets.
+
+---
+
+## 🏗️ CODE ARCHITECTURE
+
+```
+Blade / HTML  → Semantic structure only. No inline style except one-off overrides.
+CSS file      → All tokens, components, layouts. Use scoped prefix (e.g. pc-) to avoid conflicts.
+JS file       → Scroll reveal observer, counter animations, interactive states.
+```
+
+**Performance:**
+- `will-change: opacity, transform` on animated elements
+- `loading="lazy"` on all images
+- `-webkit-font-smoothing: antialiased` on body
+- `overflow-x: hidden` on body
+- `scroll-behavior: smooth` on html
+
+---
+
+## 🎯 QUALITY CHECKLIST
+
+Before marking a component done, verify:
+
+- [ ] `font-family: var(--font-display)` on every heading
+- [ ] `font-family: var(--font-body)` on every body/UI element
+- [ ] All colors use CSS variables — no hex hardcoding except `#fff`/`#000`
+- [ ] All spacing uses token-based values
+- [ ] Hover states on every interactive element
+- [ ] `.reveal` + `.d1/.d2/.d3` stagger on every section's cards
+- [ ] Dark sections have dot grid + radial gradient overlay
+- [ ] Responsive at all 4 breakpoints with no horizontal scroll
+- [ ] 44px minimum touch targets on all buttons
+- [ ] Focus-visible styles on all interactive elements
+
+---
+
+*This prompt is your single source of truth. Apply it completely, every time.*
+
+
+use ajax mostly in js ok to smooth working 

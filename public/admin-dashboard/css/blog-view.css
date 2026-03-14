@@ -1,0 +1,227 @@
+/* ═══════════════════════════════════════════════════════════
+   BLOG INDEX — ProposalCraft Admin
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Blog stats ────────────────────────────────────────────── */
+.blog-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.blog-stat-card {
+  background: #fff;
+  border: 1px solid #ECEEF2;
+  border-radius: 14px;
+  padding: 1.125rem 1.375rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: box-shadow .25s, transform .25s;
+}
+
+.blog-stat-card:hover {
+  box-shadow: 0 8px 32px rgba(13,15,20,.08);
+  transform: translateY(-2px);
+}
+
+.blog-stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.blog-stat-icon--blue   { background: #EBF0FE; color: #1A56F0; }
+.blog-stat-icon--green  { background: #E8FAF0; color: #1A7A45; }
+.blog-stat-icon--orange { background: #FFF7ED; color: #EA580C; }
+
+.blog-stat-body {}
+
+.blog-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0D0F14;
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+
+.blog-stat-label {
+  font-size: .75rem;
+  font-weight: 600;
+  color: #B0B4C0;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-top: .25rem;
+}
+
+/* ── Toolbar additions ─────────────────────────────────────── */
+.btn-admin-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem 1.125rem;
+  background: #1A56F0;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: .875rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s, transform .15s, box-shadow .15s;
+}
+
+.btn-admin-primary:hover {
+  background: #1240CC;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(26,86,240,.28);
+}
+
+.btn-admin-primary:active { transform: translateY(0); }
+
+/* ── Post title cell ───────────────────────────────────────── */
+.post-title-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+}
+
+.post-cover-thumb {
+  width: 48px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #ECEEF2;
+  flex-shrink: 0;
+  border: 1px solid #ECEEF2;
+}
+
+.post-cover-placeholder {
+  width: 48px;
+  height: 36px;
+  border-radius: 6px;
+  background: #F4F5F7;
+  border: 1px solid #ECEEF2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4D6DC;
+  flex-shrink: 0;
+}
+
+.post-title-text {
+  font-size: .875rem;
+  font-weight: 600;
+  color: #0D0F14;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-slug {
+  font-size: .7rem;
+  color: #B0B4C0;
+  margin-top: .15rem;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* ── Post status badge ─────────────────────────────────────── */
+.post-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .25rem .65rem;
+  border-radius: 9999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.post-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.post-badge--published { background: #E8FAF0; color: #1A7A45; }
+.post-badge--draft     { background: #F4F5F7; color: #7A7F8E; }
+.post-badge--scheduled { background: #FFF7ED; color: #EA580C; }
+
+/* ── Featured badge ────────────────────────────────────────── */
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem .5rem;
+  background: #FDF5E6;
+  color: #B07D10;
+  border: 1px solid rgba(232,168,56,.2);
+  border-radius: 6px;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* ── Category cell ─────────────────────────────────────────── */
+.category-tag {
+  display: inline-flex;
+  padding: .2rem .55rem;
+  background: #F4F5F7;
+  color: #4A5068;
+  border-radius: 6px;
+  font-size: .75rem;
+  font-weight: 500;
+}
+
+/* ── Read time ─────────────────────────────────────────────── */
+.read-time {
+  font-size: .75rem;
+  color: #B0B4C0;
+  white-space: nowrap;
+}
+
+/* ── View link ─────────────────────────────────────────────── */
+.table-action-btn--view {
+  color: #1A56F0;
+  border-color: rgba(26,86,240,.2);
+  background: #EBF0FE;
+}
+
+.table-action-btn--view:hover {
+  background: #1A56F0;
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 1199px) {
+  .blog-stats-row { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .blog-stats-row { grid-template-columns: 1fr; gap: .75rem; }
+  .post-cover-thumb, .post-cover-placeholder { display: none; }
+  .post-slug { display: none; }
+}
+
+@media (max-width: 575px) {
+  .blog-stat-card { padding: .875rem 1rem; }
+}

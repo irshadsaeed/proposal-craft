@@ -1,0 +1,572 @@
+/* ============================================================
+   blog-post.css
+   Single blog post — editorial, readable, SEO-clean
+   Inherits design tokens from app.css
+   ============================================================ */
+
+/* ── ARTICLE HEADER ────────────────────────────────────────── */
+.bp-header {
+    background: var(--ink);
+    color: #fff;
+    padding: var(--sp-12) 0 var(--sp-10);
+}
+.bp-header-inner {
+    max-width: 760px;
+}
+
+/* Breadcrumb */
+.bp-breadcrumb {
+    margin-bottom: 1.5rem;
+}
+.bp-bc-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    list-style: none;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+.bp-bc-list a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.bp-bc-list a:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+.bp-bc-list [aria-current="page"] {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.bp-cat {
+    margin-bottom: 1.25rem;
+    display: inline-block;
+}
+.bp-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    color: #fff;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.75rem;
+}
+.bp-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.bp-author-info {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+}
+.bp-author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.bp-author-initials {
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+.bp-author-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+.bp-author-role {
+    display: block;
+    font-size: 0.775rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+.bp-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+.bp-date,
+.bp-read-time {
+    color: rgba(255, 255, 255, 0.45);
+}
+.bl-dot {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── COVER IMAGE ───────────────────────────────────────────── */
+.bp-cover {
+    background: var(--ink);
+    padding-bottom: var(--sp-12);
+}
+.bp-cover-img {
+    width: 100%;
+    aspect-ratio: 21/9;
+    object-fit: cover;
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-xl);
+}
+
+/* ── LAYOUT ────────────────────────────────────────────────── */
+.bp-body {
+    padding: var(--sp-12) 0 var(--sp-20);
+}
+.bp-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+@media (max-width: 991px) {
+    .bp-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── TOC ───────────────────────────────────────────────────── */
+.bp-toc-sticky {
+    position: sticky;
+    top: 90px;
+    background: var(--ink-05);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-lg);
+    padding: 1.25rem;
+}
+.bp-toc-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    margin-bottom: 0.875rem;
+}
+#bpTocNav a {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    padding: 0.3rem 0.625rem;
+    border-left: 2px solid transparent;
+    margin-left: -0.625rem;
+    text-decoration: none;
+    line-height: 1.5;
+    transition:
+        color 0.15s,
+        border-color 0.15s;
+}
+#bpTocNav a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent-light);
+}
+#bpTocNav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+}
+#bpTocNav .toc-h3 {
+    padding-left: 1.125rem;
+    font-size: 0.775rem;
+}
+@media (max-width: 991px) {
+    .bp-toc-col {
+        display: none;
+    }
+}
+
+/* ── PROSE TYPOGRAPHY ──────────────────────────────────────── */
+.bp-prose {
+    font-size: 1.0625rem;
+    line-height: 1.85;
+    color: var(--ink-80);
+    max-width: 680px;
+}
+.bp-prose p {
+    margin-bottom: 1.5rem;
+}
+.bp-prose p:last-child {
+    margin-bottom: 0;
+}
+.bp-prose h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--ink);
+    letter-spacing: -0.025em;
+    margin: 2.5rem 0 1rem;
+    padding-top: 1rem;
+}
+.bp-prose h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin: 2rem 0 0.75rem;
+}
+.bp-prose h4 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 1.5rem 0 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.bp-prose ul,
+.bp-prose ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.bp-prose li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+.bp-prose ul li::marker {
+    color: var(--accent);
+}
+.bp-prose ol li::marker {
+    color: var(--accent);
+    font-weight: 700;
+}
+.bp-prose strong {
+    color: var(--ink);
+    font-weight: 700;
+}
+.bp-prose em {
+    font-style: italic;
+    color: var(--ink-60);
+}
+.bp-prose a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    transition: color 0.15s;
+}
+.bp-prose a:hover {
+    color: var(--accent-dark);
+}
+.bp-prose blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    background: var(--accent-dim);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    margin: 2rem 0;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.6;
+}
+.bp-prose blockquote cite {
+    display: block;
+    margin-top: 0.625rem;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-family: var(--font-body);
+    color: var(--ink-50);
+}
+.bp-prose pre {
+    background: var(--ink);
+    color: #e2e8f0;
+    border-radius: var(--r-md);
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 2rem 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+.bp-prose code {
+    background: var(--ink-10);
+    color: var(--accent);
+    padding: 0.125rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.875em;
+    font-family: "Courier New", monospace;
+}
+.bp-prose pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+}
+.bp-prose hr {
+    border: none;
+    border-top: 1px solid var(--ink-10);
+    margin: 2.5rem 0;
+}
+.bp-prose img {
+    border-radius: var(--r-lg);
+    margin: 2rem 0;
+    box-shadow: var(--shadow-md);
+}
+.bp-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.9375rem;
+}
+.bp-prose th {
+    background: var(--ink-05);
+    font-weight: 700;
+    padding: 0.875rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--ink-20);
+    color: var(--ink);
+}
+.bp-prose td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--ink-10);
+    color: var(--ink-80);
+}
+.bp-prose tr:hover td {
+    background: var(--ink-05);
+}
+
+/* ── TAGS ──────────────────────────────────────────────────── */
+.bp-tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 2.5rem 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--ink-10);
+}
+.bp-tags-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink-50);
+    margin-right: 0.25rem;
+}
+.bp-tag {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    background: var(--ink-05);
+    color: var(--ink-60);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-pill);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        border-color 0.15s,
+        color 0.15s,
+        background 0.15s;
+}
+.bp-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+
+/* ── SHARE ─────────────────────────────────────────────────── */
+.bp-share {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--ink-05);
+    border-radius: var(--r-lg);
+}
+.bp-share-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink-50);
+}
+.bp-share-btns {
+    display: flex;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+}
+.bp-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--r-sm);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--ink-20);
+    text-decoration: none;
+    transition: all 0.15s;
+}
+.bp-share-twitter {
+    color: #000;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+.bp-share-twitter:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+.bp-share-linkedin {
+    color: #0077b5;
+    border-color: rgba(0, 119, 181, 0.2);
+    background: rgba(0, 119, 181, 0.05);
+}
+.bp-share-linkedin:hover {
+    background: #0077b5;
+    color: #fff;
+    border-color: #0077b5;
+}
+.bp-share-copy {
+    color: var(--ink-60);
+    background: var(--white);
+}
+.bp-share-copy:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+
+/* ── AUTHOR CARD ───────────────────────────────────────────── */
+.bp-author-card {
+    display: flex;
+    gap: 1.25rem;
+    background: var(--ink-05);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-lg);
+    padding: 1.75rem;
+    margin-top: 2.5rem;
+}
+.bp-author-card-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--ink-10);
+    overflow: hidden;
+}
+.bp-author-initials-lg {
+    background: var(--accent-dim);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+.bp-author-card-name {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    margin-bottom: 0.125rem;
+}
+.bp-author-card-role {
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    margin-bottom: 0.5rem;
+}
+.bp-author-card-bio {
+    font-size: 0.875rem;
+    color: var(--ink-60);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── RELATED ───────────────────────────────────────────────── */
+.bp-related {
+    background: var(--ink-05);
+    border-top: 1px solid var(--ink-10);
+}
+.bp-related-header {
+    margin-bottom: 2rem;
+}
+
+/* ── CTA ───────────────────────────────────────────────────── */
+.bp-cta {
+    background: var(--white);
+}
+.bp-cta-card {
+    background: var(--accent);
+    border-radius: var(--r-xl);
+    padding: 5rem 2rem;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+.bp-cta-card::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    top: -200px;
+    right: -150px;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 65%
+    );
+    pointer-events: none;
+}
+.bp-cta-card .section-eyebrow {
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.55);
+}
+.bp-cta-card .section-eyebrow::before {
+    background: rgba(255, 255, 255, 0.35);
+}
+.bp-cta-card .section-heading {
+    color: #fff;
+}
+.bp-cta-card .lead {
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 2rem;
+}
+.bp-cta-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    .bp-header {
+        padding: var(--sp-8) 0;
+    }
+    .bp-title {
+        font-size: 1.75rem;
+    }
+    .bp-cover-img {
+        aspect-ratio: 16/9;
+        border-radius: var(--r-lg);
+    }
+    .bp-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .bp-prose {
+        font-size: 1rem;
+    }
+    .bp-author-card {
+        flex-direction: column;
+    }
+    .bp-share {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .bp-cta-card {
+        padding: 3rem 1.5rem;
+    }
+}

@@ -1,0 +1,371 @@
+/* ============================================================
+   dashboard.css — Dashboard page styles only
+   ============================================================ */
+
+/* ── STATS GRID ──────────────────────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid var(--ink-10);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: var(--transition);
+    /* Fix: contain overflow on small screens */
+    min-width: 0;
+}
+.stat-card:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+.stat-icon--blue   { background: var(--accent-dim); }
+.stat-icon--green  { background: var(--green-dim); }
+.stat-icon--gold   { background: var(--gold-dim); }
+/* Fix: added missing red variant for negative stats */
+.stat-icon--red    { background: var(--red-dim); }
+
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    /* Fix: prevent overflow on very small values like $1.2K */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.stat-label {
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    font-weight: 500;
+}
+.stat-change {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.stat-change.up   { color: var(--green); }
+.stat-change.down { color: var(--red); }
+
+/* ── MAIN GRID ───────────────────────────────────────────────── */
+.dashboard-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    /* Fix: prevent overflow blowout */
+    min-width: 0;
+}
+.dashboard-main-grid > * {
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* ── BOTTOM GRID ─────────────────────────────────────────────── */
+.dashboard-bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    min-width: 0;
+}
+.dashboard-bottom-grid > * {
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* ── TABLE FLUSH (no extra border inside .card) ──────────────── */
+.data-table-wrap--flush {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* Fix: scroll horizontally on small screens */
+    overflow-x: auto;
+}
+
+/* Fix: enforce minimum width so table columns don't collapse */
+.data-table-wrap--flush .data-table {
+    min-width: 500px;
+}
+
+/* Fix: improved empty state — was a bare centered text, now has icon */
+.table-empty {
+    text-align: center;
+    color: var(--ink-50);
+    padding: 2.5rem 2rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.table-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+/* ── ACTIVITY FEED ───────────────────────────────────────────── */
+.activity-list {
+    /* Fix: was padding:1rem which cut off the last border line oddly.
+       Use padding on items only, no side padding on list */
+    padding: 0 1rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid var(--ink-10);
+}
+.activity-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0.5rem;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.activity-icon--orange { background: var(--orange-dim); }
+.activity-icon--green  { background: var(--green-dim); }
+.activity-icon--blue   { background: var(--accent-dim); }
+/* Fix: added red variant for declined/failed events */
+.activity-icon--red    { background: var(--red-dim); }
+
+.activity-text {
+    font-size: 0.875rem;
+    color: var(--ink-80);
+    line-height: 1.5;
+}
+.activity-text strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+.activity-time {
+    font-size: 0.75rem;
+    color: var(--ink-50);
+    margin-top: 0.25rem;
+}
+
+/* ── CHART ───────────────────────────────────────────────────── */
+.chart-placeholder {
+    height: 180px;
+    background: linear-gradient(to bottom, var(--accent-dim), transparent);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem 1rem 0;
+    gap: 0.5rem;
+    /* Fix: overflow hidden so bars don't poke outside */
+    overflow: hidden;
+}
+.chart-bar {
+    flex: 1;
+    background: var(--accent);
+    border-radius: 4px 4px 0 0;
+    opacity: 0.65;
+    transition:
+        opacity 0.2s ease,
+        box-shadow 0.2s ease;
+    cursor: default;
+    /* Fix: transform-origin set in JS but needs this as baseline */
+    transform-origin: bottom;
+}
+.chart-bar:hover {
+    opacity: 1 !important;
+    box-shadow: 0 -2px 8px var(--accent-glow);
+}
+.chart-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--ink-50);
+    margin-top: 0.5rem;
+    padding: 0 0.25rem;
+}
+
+/* ── PROPOSAL ROW (inside table) ─────────────────────────────── */
+.proposal-row {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+}
+.proposal-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    /* Fix: background/color now set inline per-proposal for
+       initial-based avatars — base style here is fallback */
+    background: var(--accent-dim);
+}
+.proposal-name {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    /* Fix: prevent long titles breaking layout */
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.proposal-client {
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    margin-top: 0.125rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.proposal-amount {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+/* ── CTA CARD ────────────────────────────────────────────────── */
+.dashboard-cta-card {
+    background: linear-gradient(135deg, var(--ink) 0%, #1e2440 100%);
+    border-color: transparent;
+    /* Fix: ensure text doesn't overflow on smaller containers */
+    overflow: hidden;
+}
+.dashboard-cta-top {
+    margin-bottom: 1.5rem;
+}
+.dashboard-cta-badge {
+    background: rgba(232, 168, 56, 0.2);
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: inline-flex;
+}
+.dashboard-cta-heading {
+    color: #fff;
+    font-size: 1.375rem;
+    margin-bottom: 0.5rem;
+}
+.dashboard-cta-sub {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.dashboard-cta-btn {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.dashboard-quick-stats {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dashboard-quick-stats-label {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.dashboard-quick-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+}
+.dashboard-quick-stat-row:last-child {
+    margin-bottom: 0;
+}
+.dashboard-quick-stat-gold  { font-weight: 600; color: var(--gold); }
+.dashboard-quick-stat-white { font-weight: 600; color: #fff; }
+
+/* Fix: upgrade nudge CTA — new element added in blade */
+.dashboard-upgrade-nudge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    padding: 0.75rem 1rem;
+    background: rgba(26, 86, 240, 0.2);
+    border: 1px solid rgba(26, 86, 240, 0.3);
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #7ea8f8;
+    text-decoration: none;
+    transition: var(--transition);
+}
+.dashboard-upgrade-nudge:hover {
+    background: rgba(26, 86, 240, 0.3);
+    color: #fff;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .dashboard-main-grid {
+        grid-template-columns: 1fr 280px;
+    }
+}
+
+@media (max-width: 991px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .dashboard-main-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .stat-value {
+        font-size: 1.625rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}

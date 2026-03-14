@@ -1,0 +1,56 @@
+/* ============================================================
+   PROBLEM / SOLUTION — partials/problem-solution.css
+   ============================================================ */
+#problem{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.problem-bg{position:absolute;inset:0;pointer-events:none}
+.problem-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px}
+.problem-bg-orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 14s ease-in-out infinite}
+.problem-bg-orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(26,86,240,.15) 0%,transparent 70%);top:-100px;left:-100px}
+.problem-bg-orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(232,168,56,.08) 0%,transparent 70%);bottom:-80px;right:-80px;animation-delay:-6s}
+#problem .section-eyebrow{color:var(--gold)}
+#problem .section-eyebrow::before{background:var(--gold)}
+#problem .section-heading{color:var(--paper)}
+#problem .lead{color:rgba(255,255,255,.58)}
+
+/* Problem cards */
+.problem-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-md);padding:2rem;transition:background var(--t-base),border-color var(--t-base),transform var(--t-base),box-shadow var(--t-base);position:relative;overflow:hidden}
+.problem-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease-out)}
+.problem-card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.problem-card:hover::after{transform:scaleX(1)}
+.problem-icon{width:52px;height:52px;background:rgba(232,168,56,.12);border:1px solid rgba(232,168,56,.2);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.375rem;transition:background var(--t-fast),transform var(--t-spring)}
+.problem-card:hover .problem-icon{background:rgba(232,168,56,.2);transform:scale(1.1) rotate(-3deg)}
+.problem-card h4{color:var(--paper);font-size:1.0625rem;margin-bottom:.625rem}
+.problem-card p{color:rgba(255,255,255,.5);font-size:.9375rem;line-height:1.75}
+
+/* Bridge */
+.solution-bridge{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:var(--sp-10) 0}
+.bridge-line{width:2px;height:64px;background:linear-gradient(to bottom,rgba(26,86,240,.2),var(--accent))}
+.bridge-node{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(26,86,240,.12),var(--shadow-accent);animation:pulseDot 2.5s infinite}
+.bridge-node svg{width:20px;height:20px;color:#fff}
+.bridge-label{margin-top:.875rem;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+/* Solution card */
+.solution-card{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);border-radius:var(--r-xl);padding:var(--sp-12);position:relative;overflow:hidden}
+.solution-card::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:rgba(255,255,255,.07);border-radius:50%}
+.solution-card::after{content:'';position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;background:rgba(255,255,255,.04);border-radius:50%}
+.solution-card-inner{position:relative;z-index:1}
+.solution-card h3{color:#fff;font-size:1.875rem;margin-bottom:1rem;letter-spacing:-.03em}
+.solution-card p{color:rgba(255,255,255,.82);font-size:1rem;line-height:1.85}
+.solution-list{margin-top:1.875rem;display:flex;flex-direction:column;gap:.875rem}
+.solution-list li{display:flex;align-items:center;gap:.875rem;color:rgba(255,255,255,.92);font-size:.9375rem}
+.solution-list strong{color:#fff}
+.solution-check{width:24px;height:24px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.8rem;font-weight:700;transition:background var(--t-fast),transform var(--t-spring)}
+.solution-list li:hover .solution-check{background:rgba(255,255,255,.35);transform:scale(1.15)}
+
+/* Solution visual panel */
+.solution-visual{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--r-lg);padding:var(--sp-8);text-align:center;backdrop-filter:blur(10px)}
+.solution-visual-icon{font-size:4rem;margin-bottom:1rem;animation:floatY 3s ease-in-out infinite}
+.solution-tagline .headline{font-family:var(--font-display);font-size:1.5rem;color:#fff;letter-spacing:-.03em}
+.solution-tagline .sub{font-size:.9rem;color:rgba(255,255,255,.6);margin-top:.375rem}
+.solution-stats-mini{display:flex;justify-content:center;gap:1.5rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.12)}
+.solution-stat .val{font-family:var(--font-display);font-size:1.625rem;color:#fff;letter-spacing:-.035em;line-height:1}
+.solution-stat .lbl{font-size:.72rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:.25rem}
+
+@media(max-width:991px){.solution-card{padding:var(--sp-8)}}
+@media(max-width:767px){.bridge-line{height:48px};.solution-visual{margin-top:var(--sp-6)}}
+@media(max-width:575px){.solution-card{padding:var(--sp-6)};.solution-stats-mini{gap:1rem}}

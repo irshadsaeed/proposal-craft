@@ -1,0 +1,174 @@
+/* ═══════════════════════════════════════════════════════════
+   CONTACTS VIEW (Index) — ProposalCraft Admin
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Contact stats ─────────────────────────────────────────── */
+.contacts-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Reuses .blog-stat-card pattern */
+
+/* ── Unread row highlight ───────────────────────────────────── */
+.contact-row--unread {
+  background: #FAFEFF;
+}
+
+.contact-row--unread td {
+  font-weight: 600;
+}
+
+/* ── Unread dot ────────────────────────────────────────────── */
+.unread-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1A56F0;
+  margin-right: .5rem;
+  flex-shrink: 0;
+  animation: unreadPulse 2s ease-in-out infinite;
+}
+
+@keyframes unreadPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(26,86,240,.4); }
+  50%     { box-shadow: 0 0 0 5px rgba(26,86,240,0); }
+}
+
+/* ── Contact subject cell ──────────────────────────────────── */
+.contact-subject {
+  display: flex;
+  align-items: center;
+  gap: .375rem;
+}
+
+.contact-subject-text {
+  font-size: .875rem;
+  font-weight: 600;
+  color: #0D0F14;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.contact-preview {
+  font-size: .75rem;
+  color: #B0B4C0;
+  margin-top: .1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* ── Contact status ────────────────────────────────────────── */
+.contact-status--new      { background: #EBF0FE; color: #1A56F0; }
+.contact-status--read     { background: #F4F5F7; color: #7A7F8E; }
+.contact-status--replied  { background: #E8FAF0; color: #1A7A45; }
+.contact-status--archived { background: #FFF7ED; color: #EA580C; }
+
+/* ── Reply button ──────────────────────────────────────────── */
+.btn-reply {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .35rem .75rem;
+  background: #EBF0FE;
+  border: 1px solid rgba(26,86,240,.15);
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: .75rem;
+  font-weight: 600;
+  color: #1A56F0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+
+.btn-reply:hover {
+  background: #1A56F0;
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+/* ── Filters bar ───────────────────────────────────────────── */
+.contacts-filter-tabs {
+  display: flex;
+  gap: .375rem;
+  padding: .75rem 1.125rem;
+  border-bottom: 1px solid #ECEEF2;
+  background: #FAFAF9;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.contacts-filter-tabs::-webkit-scrollbar { display: none; }
+
+.filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .35rem .875rem;
+  border-radius: 9999px;
+  font-size: .8125rem;
+  font-weight: 600;
+  color: #7A7F8E;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s, border-color .15s;
+  text-decoration: none;
+}
+
+.filter-tab:hover {
+  background: #fff;
+  border-color: #ECEEF2;
+  color: #0D0F14;
+}
+
+.filter-tab.is-active {
+  background: #fff;
+  border-color: #D4D6DC;
+  color: #0D0F14;
+  box-shadow: 0 1px 4px rgba(13,15,20,.05);
+}
+
+.filter-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 .35rem;
+  background: #F4F5F7;
+  color: #7A7F8E;
+  border-radius: 9999px;
+  font-size: .65rem;
+  font-weight: 700;
+}
+
+.filter-tab.is-active .filter-tab-count {
+  background: #EBF0FE;
+  color: #1A56F0;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .contacts-stats-row { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 767px) {
+  .contact-preview { display: none; }
+  .contact-subject-text { max-width: 160px; }
+}
+
+@media (max-width: 575px) {
+  .contacts-stats-row { grid-template-columns: 1fr; }
+  .contacts-filter-tabs { padding: .625rem .875rem; }
+}

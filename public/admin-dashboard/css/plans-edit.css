@@ -1,0 +1,1391 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   plans-edit.css  ·  ProposalCraft Admin  ·  Supreme Edition
+   ─────────────────────────────────────────────────────────────────────
+   Prefix  : pe-  (plans-edit) — zero collision with dashboard or plans
+   Fonts   : Instrument Serif (heading) · Geist (all UI)
+   Tokens  : strictly from dashboard.css :root — no arbitrary values
+   Scope   : .pe-page — no style leakage
+   ─────────────────────────────────────────────────────────────────────
+   Sections
+     §1   Font scope & page shell
+     §2   Page header (back button · eyebrow · heading · actions)
+     §3   Two-column layout (main + sidebar)
+     §4   Cards (base · head · body)
+     §5   Form fields (labels · inputs · prefix · currency · mono · limit)
+     §6   Toggle switch (pe-switch)
+     §7   Toggle fields (identity toggles)
+     §8   Features list (drag · muted · input · remove · footer)
+     §9   Preview card (sidebar)
+    §10   Danger zone card
+    §11   Save shortcut (sidebar)
+    §12   Delete modal
+    §13   Button system (primary · outline · ghost · destructive · gold)
+    §14   Scroll reveal utility
+    §15   Responsive — 4 breakpoints: 1200 · 991 · 767 · 575
+    §16   Reduced-motion gate
+═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §1  FONT SCOPE & PAGE SHELL
+───────────────────────────────────────────────────────────────────── */
+
+.pe-page {
+  --pe-serif  : 'Instrument Serif', Georgia, serif;
+  --pe-geist  : 'Geist', 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family : var(--pe-geist);
+}
+
+.pe-page *,
+.pe-page *::before,
+.pe-page *::after {
+  font-family : var(--pe-geist);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §2  PAGE HEADER
+───────────────────────────────────────────────────────────────────── */
+
+.pe-header {
+  display          : flex;
+  align-items      : center;
+  justify-content  : space-between;
+  gap              : var(--s6);
+  margin-bottom    : clamp(1.5rem, 3vw, 2.25rem);
+  padding-bottom   : var(--s6);
+  border-bottom    : 1px solid var(--ink-06);
+  flex-wrap        : wrap;
+}
+
+.pe-header-left {
+  display          : flex;
+  align-items      : center;
+  gap              : var(--s4);
+  min-width        : 0;
+  flex-wrap        : wrap;
+}
+
+/* Back button */
+.pe-back-btn {
+  display          : inline-flex;
+  align-items      : center;
+  gap              : .35rem;
+  height           : 36px;
+  padding          : 0 var(--s4);
+  border-radius    : var(--r-md);
+  font-size        : var(--sz-md);
+  font-weight      : 600;
+  color            : var(--ink-40);
+  background       : var(--surface-0);
+  border           : 1.5px solid var(--ink-10);
+  cursor           : pointer;
+  white-space      : nowrap;
+  flex-shrink      : 0;
+  transition       : background var(--t1), color var(--t1),
+                     border-color var(--t1), transform var(--ts);
+}
+
+.pe-back-btn:hover {
+  background       : var(--ink-06);
+  color            : var(--ink);
+  border-color     : var(--ink-18);
+  transform        : translateX(-2px);
+}
+
+.pe-back-btn:focus-visible {
+  outline          : 2px solid var(--accent);
+  outline-offset   : 2px;
+}
+
+/* Header divider */
+.pe-header-divider {
+  width            : 1px;
+  height           : 32px;
+  background       : var(--ink-10);
+  flex-shrink      : 0;
+}
+
+/* Eyebrow */
+.pe-eyebrow {
+  display          : inline-flex;
+  align-items      : center;
+  gap              : .42rem;
+  font-size        : var(--sz-xs);
+  font-weight      : 700;
+  letter-spacing   : .14em;
+  text-transform   : uppercase;
+  color            : var(--accent);
+  margin-bottom    : .25rem;
+}
+
+.pe-eyebrow-dot {
+  width            : 5px;
+  height           : 5px;
+  border-radius    : 50%;
+  background       : var(--accent);
+  flex-shrink      : 0;
+  animation        : sonarPulse 3s ease-in-out infinite;
+}
+
+/* Display heading — Instrument Serif */
+.pe-heading {
+  font-family      : var(--pe-serif);
+  font-size        : clamp(1.5rem, 2vw + .75rem, 2.375rem);
+  font-weight      : 400;
+  color            : var(--ink);
+  letter-spacing   : -.022em;
+  line-height      : 1.1;
+}
+
+.pe-heading-plan {
+  font-style       : italic;
+  color            : var(--accent);
+  font-weight      : 400;
+  margin-left      : .2em;
+}
+
+/* Header right */
+.pe-header-right {
+  display          : flex;
+  align-items      : center;
+  gap              : var(--s3);
+  flex-shrink      : 0;
+  flex-wrap        : wrap;
+}
+
+/* Plan preview badge (header) */
+.pe-plan-preview {
+  display          : inline-flex;
+  align-items      : center;
+  gap              : .4rem;
+  font-size        : var(--sz-sm);
+  font-weight      : 600;
+  color            : var(--ink-55);
+  background       : var(--surface-1);
+  border           : 1px solid var(--ink-10);
+  border-radius    : var(--r-pill);
+  padding          : .3rem .8rem;
+  white-space      : nowrap;
+}
+
+.pe-plan-preview--pro    { border-color: rgba(28,82,238,.18); color: var(--accent-lo); background: var(--accent-tint); }
+.pe-plan-preview--agency { border-color: rgba(217,119,6,.18);  color: var(--amber); background: var(--amber-tint); }
+
+.pe-plan-preview-dot {
+  width            : 6px;
+  height           : 6px;
+  border-radius    : 50%;
+  flex-shrink      : 0;
+}
+
+.pe-plan-preview-dot.is-live {
+  background       : var(--green-hi);
+  animation        : sonarPulse 2.8s ease-in-out infinite;
+}
+
+.pe-plan-preview-dot.is-off { background: var(--ink-18); }
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §3  TWO-COLUMN LAYOUT
+───────────────────────────────────────────────────────────────────── */
+
+.pe-layout {
+  display          : grid;
+  grid-template-columns: 1fr 280px;
+  gap              : var(--s6);
+  align-items      : start;
+}
+
+.pe-col-main {
+  display          : flex;
+  flex-direction   : column;
+  gap              : var(--s5);
+  min-width        : 0;
+}
+
+.pe-col-side {
+  display          : flex;
+  flex-direction   : column;
+  gap              : var(--s4);
+  position         : sticky;
+  top              : calc(var(--topbar-h) + var(--s6));
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §4  CARDS
+───────────────────────────────────────────────────────────────────── */
+
+.pe-card {
+  background       : var(--surface-0);
+  border           : 1px solid var(--ink-10);
+  border-radius    : var(--r-xl);
+  overflow         : hidden;
+  box-shadow       : var(--e1);
+  transition       : box-shadow var(--t2), border-color var(--t2);
+  position         : relative;
+}
+
+/* Crown highlight */
+.pe-card::before {
+  content          : '';
+  position         : absolute;
+  top              : 0;
+  left             : 12%;
+  right            : 12%;
+  height           : 1px;
+  background       : linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+  pointer-events   : none;
+}
+
+.pe-card:hover {
+  box-shadow       : var(--e2);
+  border-color     : var(--ink-18);
+}
+
+/* Card head */
+.pe-card-head {
+  display          : flex;
+  align-items      : flex-start;
+  justify-content  : space-between;
+  padding          : 1.25rem 1.5rem 1rem;
+  border-bottom    : 1px solid var(--ink-06);
+  background       : var(--surface-1);
+  gap              : var(--s4);
+  flex-wrap        : wrap;
+}
+
+.pe-card-head--flush {
+  border-bottom    : none;
+  padding-bottom   : 0;
+}
+
+/* Section label (01, 02…) */
+.pe-section-label {
+  display          : flex;
+  align-items      : center;
+  gap              : .5rem;
+  font-size        : var(--sz-xs);
+  font-weight      : 800;
+  letter-spacing   : .12em;
+  text-transform   : uppercase;
+  color            : var(--ink-55);
+}
+
+.pe-section-dot {
+  font-size        : var(--sz-2xs);
+  font-weight      : 800;
+  color            : var(--ink-28);
+  letter-spacing   : 0;
+  text-transform   : none;
+  font-variant-numeric: tabular-nums;
+}
+
+.pe-section-label--danger { color: var(--red); }
+.pe-section-dot--danger   { color: var(--red); font-size: .625rem; }
+
+.pe-card-desc {
+  font-size        : var(--sz-sm);
+  color            : var(--ink-40);
+  font-weight      : 400;
+  line-height      : 1.6;
+}
+
+/* Card body */
+.pe-card-body {
+  padding          : 1.5rem;
+  display          : flex;
+  flex-direction   : column;
+  gap              : 1.25rem;
+}
+
+.pe-card-body--no-pad-b { padding-bottom: 0; }
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §5  FORM FIELDS
+───────────────────────────────────────────────────────────────────── */
+
+/* Two-column field row */
+.pe-field-row {
+  display          : grid;
+  grid-template-columns: 1fr 1fr;
+  gap              : var(--s5);
+}
+
+.pe-field-row--stripe {
+  padding-top      : var(--s4);
+  border-top       : 1px solid var(--ink-06);
+  margin-top       : -.25rem;
+}
+
+.pe-field { display: flex; flex-direction: column; gap: var(--s1); }
+.pe-field--full { grid-column: 1 / -1; }
+
+/* Label */
+.pe-label {
+  font-size        : var(--sz-md);
+  font-weight      : 600;
+  color            : var(--ink-70);
+  display          : flex;
+  align-items      : center;
+  gap              : .25rem;
+  line-height      : 1.3;
+}
+
+.pe-required {
+  color            : var(--red);
+  font-size        : var(--sz-lg);
+  line-height      : 1;
+}
+
+/* Base input */
+.pe-input {
+  height           : 40px;
+  padding          : 0 var(--s4);
+  background       : var(--surface-0);
+  border           : 1.5px solid var(--ink-10);
+  border-radius    : var(--r-md);
+  font-size        : var(--sz-lg);
+  color            : var(--ink);
+  outline          : none;
+  box-shadow       : var(--e-inner);
+  transition       : border-color var(--t1), box-shadow var(--t1), background var(--t1);
+  width            : 100%;
+}
+
+.pe-input::placeholder { color: var(--ink-28); }
+
+.pe-input:hover:not(:disabled) {
+  border-color     : var(--ink-18);
+}
+
+.pe-input:focus {
+  border-color     : rgba(28,82,238,.38);
+  box-shadow       : var(--e-focus), var(--e-inner);
+  background       : var(--surface-0);
+}
+
+.pe-input--error {
+  border-color     : rgba(220,38,38,.38) !important;
+  box-shadow       : 0 0 0 3px rgba(220,38,38,.12) !important;
+  background       : var(--red-tint) !important;
+}
+
+.pe-input:disabled {
+  background       : var(--surface-1);
+  color            : var(--ink-28);
+  cursor           : not-allowed;
+  border-color     : var(--ink-06);
+}
+
+/* Textarea */
+.pe-textarea {
+  resize           : vertical;
+  height           : auto;
+  min-height       : 72px;
+  padding          : var(--s3) var(--s4);
+  line-height      : 1.6;
+}
+
+/* Prefix input (plan/) */
+.pe-input-prefix-wrap {
+  position         : relative;
+  display          : flex;
+  align-items      : center;
+}
+
+.pe-input-prefix {
+  position         : absolute;
+  left             : var(--s4);
+  font-size        : var(--sz-md);
+  font-weight      : 500;
+  color            : var(--ink-28);
+  pointer-events   : none;
+  user-select      : none;
+  white-space      : nowrap;
+}
+
+.pe-input--prefixed {
+  padding-left     : 3.25rem;
+}
+
+/* Currency input */
+.pe-input-currency-wrap {
+  position         : relative;
+  display          : flex;
+  align-items      : center;
+}
+
+.pe-currency-symbol {
+  position         : absolute;
+  left             : var(--s4);
+  font-size        : var(--sz-xl);
+  font-weight      : 600;
+  color            : var(--ink-40);
+  pointer-events   : none;
+}
+
+.pe-currency-suffix {
+  position         : absolute;
+  right            : var(--s4);
+  font-size        : var(--sz-sm);
+  font-weight      : 600;
+  color            : var(--ink-28);
+  pointer-events   : none;
+}
+
+.pe-input--currency {
+  padding-left     : 2rem;
+  padding-right    : 3.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Price preview (JS-populated) */
+.pe-price-preview {
+  font-family      : var(--pe-serif);
+  font-size        : var(--sz-3xl);
+  font-weight      : 400;
+  color            : var(--ink);
+  letter-spacing   : -.03em;
+  line-height      : 1;
+  min-height       : 1.5em;
+  transition       : color var(--t1);
+}
+
+.pe-price-preview:empty { display: none; }
+
+/* Mono input (Stripe IDs) */
+.pe-input-mono-wrap {
+  position         : relative;
+  display          : flex;
+  align-items      : center;
+}
+
+.pe-stripe-icon {
+  position         : absolute;
+  left             : var(--s3);
+  color            : var(--ink-28);
+  pointer-events   : none;
+  flex-shrink      : 0;
+}
+
+.pe-input--mono {
+  font-family      : var(--font-mono, ui-monospace, 'Fira Code', monospace);
+  font-size        : var(--sz-md);
+  letter-spacing   : -.01em;
+}
+
+.pe-input--with-icon { padding-left: 2.125rem; }
+
+/* Limit input */
+.pe-limits-grid {
+  display          : grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap              : var(--s5);
+}
+
+.pe-input-limit-wrap {
+  position         : relative;
+  display          : flex;
+  align-items      : center;
+}
+
+.pe-limit-unit {
+  position         : absolute;
+  right            : var(--s3);
+  font-size        : var(--sz-sm);
+  font-weight      : 600;
+  color            : var(--ink-28);
+  pointer-events   : none;
+  white-space      : nowrap;
+}
+
+.pe-input--limit {
+  padding-right    : 3.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Unlimited hint */
+.pe-unlimited-hint {
+  display          : flex;
+  align-items      : flex-start;
+  gap              : .4rem;
+  font-size        : var(--sz-sm);
+  color            : var(--ink-40);
+  line-height      : 1.5;
+  margin-top       : -.25rem;
+}
+
+.pe-unlimited-hint svg { flex-shrink: 0; margin-top: .1rem; color: var(--ink-28); }
+
+.pe-unlimited-hint code {
+  font-family      : var(--font-mono, monospace);
+  font-size        : var(--sz-sm);
+  background       : var(--surface-2);
+  border           : 1px solid var(--ink-10);
+  border-radius    : var(--r-xs);
+  padding          : 0 .3rem;
+  color            : var(--ink-55);
+}
+
+/* Savings callout */
+.pe-savings-callout {
+  display          : flex;
+  align-items      : center;
+  gap              : .5rem;
+  padding          : .75rem var(--s4);
+  background       : var(--green-tint);
+  border           : 1px solid var(--green-ring);
+  border-radius    : var(--r-md);
+  font-size        : var(--sz-md);
+  font-weight      : 600;
+  color            : var(--green);
+  animation        : pePopIn var(--ms-3) var(--ease-spring) both;
+}
+
+@keyframes pePopIn {
+  from { opacity: 0; transform: scale(.95) translateY(-4px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* Field hint */
+.pe-hint {
+  font-size        : var(--sz-sm);
+  color            : var(--ink-40);
+  line-height      : 1.5;
+}
+
+/* Field error */
+.pe-error {
+  font-size        : var(--sz-sm);
+  font-weight      : 600;
+  color            : var(--red);
+  display          : flex;
+  align-items      : center;
+  gap              : .3rem;
+  animation        : peShake var(--ms-4) var(--ease-spring) both;
+}
+
+@keyframes peShake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px); }
+  40%       { transform: translateX(4px); }
+  60%       { transform: translateX(-3px); }
+  80%       { transform: translateX(2px); }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §6  TOGGLE SWITCH  (pe-switch)
+───────────────────────────────────────────────────────────────────── */
+
+.pe-switch {
+  position         : relative;
+  display          : inline-flex;
+  align-items      : center;
+  cursor           : pointer;
+  flex-shrink      : 0;
+  user-select      : none;
+}
+
+.pe-switch-input {
+  position         : absolute;
+  opacity          : 0;
+  width            : 0;
+  height           : 0;
+  pointer-events   : none;
+}
+
+.pe-switch-track {
+  width            : 40px;
+  height           : 23px;
+  border-radius    : var(--r-pill);
+  background       : var(--ink-10);
+  display          : flex;
+  align-items      : center;
+  padding          : 2.5px;
+  box-shadow       : var(--e-inner);
+  transition       : background var(--ms-2) var(--ease-io),
+                     box-shadow var(--ms-2) var(--ease-io);
+}
+
+.pe-switch-thumb {
+  width            : 18px;
+  height           : 18px;
+  border-radius    : 50%;
+  background       : #fff;
+  box-shadow       : 0 1px 4px rgba(8,10,18,.20), 0 0 0 1px rgba(8,10,18,.06);
+  flex-shrink      : 0;
+  transition       : transform var(--ms-3) var(--ease-spring),
+                     box-shadow var(--ms-2) var(--ease-io);
+  will-change      : transform;
+}
+
+.pe-switch-input:checked + .pe-switch-track {
+  background       : linear-gradient(135deg, var(--accent), var(--accent-hi));
+  box-shadow       : 0 2px 12px rgba(28,82,238,.28);
+}
+
+.pe-switch-input:checked + .pe-switch-track .pe-switch-thumb {
+  transform        : translateX(17px);
+  box-shadow       : 0 2px 6px rgba(28,82,238,.26), 0 0 0 1px rgba(28,82,238,.13);
+}
+
+.pe-switch:hover .pe-switch-track {
+  box-shadow       : var(--e-inner), 0 0 0 3px rgba(28,82,238,.09);
+}
+
+.pe-switch-input:focus-visible + .pe-switch-track {
+  outline          : 2px solid var(--accent);
+  outline-offset   : 2px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §7  IDENTITY TOGGLE FIELDS
+───────────────────────────────────────────────────────────────────── */
+
+.pe-toggle-row {
+  display          : flex;
+  flex-direction   : column;
+  gap              : 0;
+  border           : 1px solid var(--ink-06);
+  border-radius    : var(--r-lg);
+  overflow         : hidden;
+}
+
+.pe-toggle-field {
+  padding          : 1rem 1.25rem;
+  transition       : background var(--t1);
+}
+
+.pe-toggle-field:not(:last-child) {
+  border-bottom    : 1px solid var(--ink-06);
+}
+
+.pe-toggle-field:hover { background: var(--surface-1); }
+
+.pe-toggle-label-wrap {
+  display          : flex;
+  align-items      : center;
+  justify-content  : space-between;
+  gap              : var(--s4);
+  cursor           : pointer;
+}
+
+.pe-toggle-text {
+  display          : flex;
+  flex-direction   : column;
+  gap              : .2rem;
+  min-width        : 0;
+}
+
+.pe-toggle-name {
+  font-size        : var(--sz-lg);
+  font-weight      : 600;
+  color            : var(--ink);
+  display          : flex;
+  align-items      : center;
+  gap              : .35rem;
+}
+
+.pe-toggle-desc {
+  font-size        : var(--sz-sm);
+  color            : var(--ink-40);
+  font-weight      : 400;
+}
+
+.pe-popular-chip {
+  font-size        : .65rem;
+  color            : var(--amber);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §8  FEATURES LIST
+───────────────────────────────────────────────────────────────────── */
+
+.pe-features-list {
+  display          : flex;
+  flex-direction   : column;
+  gap              : 2px;
+}
+
+.pe-feat-row {
+  display          : flex;
+  align-items      : center;
+  gap              : var(--s2);
+  padding          : .5rem var(--s5) .5rem var(--s3);
+  background       : var(--surface-0);
+  border           : 1px solid transparent;
+  border-radius    : var(--r-md);
+  transition       : background var(--t1), border-color var(--t1), box-shadow var(--t1);
+  cursor           : default;
+}
+
+.pe-feat-row:hover {
+  background       : var(--surface-1);
+  border-color     : var(--ink-06);
+}
+
+.pe-feat-row.is-dragging {
+  opacity          : .5;
+  cursor           : grabbing;
+}
+
+.pe-feat-row.is-over {
+  border-color     : var(--accent);
+  box-shadow       : 0 0 0 2px rgba(28,82,238,.12);
+}
+
+/* Drag handle */
+.pe-feat-drag {
+  background       : none;
+  border           : none;
+  padding          : var(--s1);
+  color            : var(--ink-18);
+  cursor           : grab;
+  display          : flex;
+  align-items      : center;
+  justify-content  : center;
+  flex-shrink      : 0;
+  transition       : color var(--t1);
+  border-radius    : var(--r-xs);
+}
+
+.pe-feat-drag:hover { color: var(--ink-40); }
+.pe-feat-drag:active { cursor: grabbing; }
+
+/* Muted toggle */
+.pe-feat-muted-toggle {
+  cursor           : pointer;
+  flex-shrink      : 0;
+}
+
+.pe-feat-muted-input {
+  position         : absolute;
+  opacity          : 0;
+  pointer-events   : none;
+  width            : 0;
+  height           : 0;
+}
+
+.pe-feat-muted-icon {
+  width            : 22px;
+  height           : 22px;
+  border-radius    : var(--r-xs);
+  border           : 1.5px solid var(--ink-10);
+  background       : var(--surface-0);
+  display          : flex;
+  align-items      : center;
+  justify-content  : center;
+  color            : var(--ink-28);
+  transition       : background var(--t1), border-color var(--t1), color var(--t1);
+}
+
+.pe-feat-muted-input:checked + .pe-feat-muted-icon {
+  background       : var(--orange-tint);
+  border-color     : var(--orange-ring);
+  color            : var(--orange);
+}
+
+/* Feature text input */
+.pe-feat-input {
+  flex             : 1;
+  height           : 36px;
+  padding          : 0 var(--s3);
+  background       : transparent;
+  border           : 1.5px solid transparent;
+  border-radius    : var(--r-sm);
+  font-size        : var(--sz-md);
+  color            : var(--ink-55);
+  outline          : none;
+  transition       : background var(--t1), border-color var(--t1), color var(--t1);
+  min-width        : 0;
+}
+
+.pe-feat-input::placeholder { color: var(--ink-18); }
+
+.pe-feat-input:hover {
+  background       : var(--surface-0);
+  border-color     : var(--ink-10);
+}
+
+.pe-feat-input:focus {
+  background       : var(--surface-0);
+  border-color     : rgba(28,82,238,.30);
+  box-shadow       : var(--e-focus);
+  color            : var(--ink);
+}
+
+/* Remove button */
+.pe-feat-remove {
+  background       : none;
+  border           : none;
+  width            : 26px;
+  height           : 26px;
+  border-radius    : var(--r-sm);
+  color            : var(--ink-18);
+  cursor           : pointer;
+  display          : flex;
+  align-items      : center;
+  justify-content  : center;
+  flex-shrink      : 0;
+  transition       : background var(--t1), color var(--t1), transform var(--ts);
+  opacity          : 0;
+}
+
+.pe-feat-row:hover .pe-feat-remove { opacity: 1; }
+
+.pe-feat-remove:hover {
+  background       : var(--red-tint);
+  color            : var(--red);
+  transform        : scale(1.1);
+}
+
+/* Features footer */
+.pe-feats-footer {
+  display          : flex;
+  align-items      : center;
+  justify-content  : space-between;
+  padding          : var(--s4) var(--s5);
+  border-top       : 1px solid var(--ink-06);
+  background       : var(--surface-1);
+}
+
+.pe-add-feat-btn {
+  display          : inline-flex;
+  align-items      : center;
+  gap              : .4rem;
+  height           : 34px;
+  padding          : 0 var(--s4);
+  border-radius    : var(--r-md);
+  font-size        : var(--sz-md);
+  font-weight      : 600;
+  color            : var(--accent);
+  background       : var(--accent-tint);
+  border           : 1.5px solid rgba(28,82,238,.18);
+  cursor           : pointer;
+  min-height       : 44px;
+  transition       : background var(--t1), border-color var(--t1),
+                     transform var(--ts), box-shadow var(--t2);
+}
+
+.pe-add-feat-btn:hover {
+  background       : rgba(28,82,238,.12);
+  border-color     : rgba(28,82,238,.28);
+  transform        : translateY(-1px);
+  box-shadow       : 0 4px 14px rgba(28,82,238,.12);
+}
+
+.pe-feat-count {
+  font-size        : var(--sz-sm);
+  font-weight      : 600;
+  color            : var(--ink-40);
+}
+
+/* New-row entrance animation */
+.pe-feat-row.is-new {
+  animation        : peFeatIn var(--ms-3) var(--ease-spring) both;
+}
+
+@keyframes peFeatIn {
+  from { opacity: 0; transform: translateY(-8px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0)     scale(1); }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §9  PREVIEW CARD (sidebar)
+───────────────────────────────────────────────────────────────────── */
+
+.pe-preview-card { overflow: visible; }
+
+.pe-preview-body {
+  padding          : var(--s5) 1.25rem;
+  display          : flex;
+  flex-direction   : column;
+  gap              : var(--s4);
+}
+
+.pe-preview-top {
+  display          : flex;
+  align-items      : center;
+  justify-content  : space-between;
+  gap              : var(--s2);
+}
+
+.pe-preview-status {
+  font-size        : var(--sz-2xs);
+  font-weight      : 800;
+  letter-spacing   : .09em;
+  text-transform   : uppercase;
+  padding          : .2rem .55rem;
+  border-radius    : var(--r-pill);
+}
+
+.pe-preview-status.is-live {
+  background       : var(--green-tint);
+  color            : var(--green);
+  border           : 1px solid var(--green-ring);
+}
+
+.pe-preview-status.is-off {
+  background       : var(--ink-06);
+  color            : var(--ink-40);
+  border           : 1px solid var(--ink-10);
+}
+
+.pe-preview-price {
+  border-top       : 1px solid var(--ink-06);
+  padding-top      : var(--s4);
+}
+
+.pe-preview-price-display {
+  font-family      : var(--pe-serif);
+  font-size        : clamp(1.625rem, 3vw, 2rem);
+  font-weight      : 400;
+  color            : var(--ink);
+  letter-spacing   : -.03em;
+  line-height      : 1;
+}
+
+.pe-preview-price-display span {
+  font-family      : var(--pe-geist);
+  font-size        : var(--sz-lg);
+  font-weight      : 500;
+  color            : var(--ink-40);
+}
+
+.pe-preview-chips {
+  display          : grid;
+  grid-template-columns: 1fr 1fr;
+  gap              : var(--s2);
+}
+
+.pe-preview-chip {
+  display          : flex;
+  flex-direction   : column;
+  align-items      : center;
+  gap              : .2rem;
+  padding          : .625rem .5rem;
+  background       : var(--surface-1);
+  border           : 1px solid var(--ink-06);
+  border-radius    : var(--r-md);
+}
+
+.pe-preview-chip-val {
+  font-size        : var(--sz-2xl);
+  font-weight      : 800;
+  color            : var(--ink);
+  letter-spacing   : -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.pe-preview-chip-lbl {
+  font-size        : var(--sz-2xs);
+  font-weight      : 700;
+  color            : var(--ink-28);
+  letter-spacing   : .08em;
+  text-transform   : uppercase;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §10  DANGER ZONE CARD
+───────────────────────────────────────────────────────────────────── */
+
+.pe-danger-card {
+  border-color     : rgba(220,38,38,.15);
+  box-shadow       : var(--e1), 0 0 0 1px rgba(220,38,38,.06);
+}
+
+.pe-danger-card:hover {
+  border-color     : rgba(220,38,38,.24);
+}
+
+.pe-danger-card .pe-card-head {
+  background       : var(--red-tint);
+  border-color     : rgba(220,38,38,.12);
+}
+
+.pe-danger-desc {
+  font-size        : var(--sz-sm);
+  color            : var(--ink-55);
+  line-height      : 1.65;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §11  SAVE SHORTCUT SIDEBAR BLOCK
+───────────────────────────────────────────────────────────────────── */
+
+.pe-save-shortcut {
+  display          : flex;
+  flex-direction   : column;
+  align-items      : center;
+  gap              : var(--s2);
+}
+
+.pe-shortcut-hint {
+  font-size        : var(--sz-sm);
+  color            : var(--ink-28);
+  display          : flex;
+  align-items      : center;
+  gap              : .25rem;
+}
+
+kbd {
+  font-family      : var(--pe-geist);
+  font-size        : var(--sz-2xs);
+  font-weight      : 700;
+  background       : var(--surface-2);
+  border           : 1px solid var(--ink-18);
+  border-radius    : var(--r-xs);
+  padding          : .1rem .4rem;
+  color            : var(--ink-55);
+  box-shadow       : 0 1px 0 var(--ink-18);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §12  DELETE MODAL
+───────────────────────────────────────────────────────────────────── */
+
+.pe-modal {
+  position         : fixed;
+  inset            : 0;
+  z-index          : 800;
+  display          : flex;
+  align-items      : center;
+  justify-content  : center;
+  padding          : var(--s4);
+}
+
+.pe-modal[hidden] { display: none !important; }
+
+.pe-modal-backdrop {
+  position         : absolute;
+  inset            : 0;
+  background       : rgba(6,8,15,.62);
+  backdrop-filter  : blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  animation        : peBackdropIn var(--ms-2) ease both;
+}
+
+@keyframes peBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pe-modal-box {
+  position         : relative;
+  z-index          : 1;
+  background       : var(--surface-0);
+  border           : 1px solid var(--ink-10);
+  border-radius    : var(--r-2xl);
+  padding          : 2.25rem 2rem 2rem;
+  width            : 100%;
+  max-width        : 420px;
+  text-align       : center;
+  box-shadow       : var(--e5);
+  animation        : peModalIn var(--ms-4) var(--ease-spring) both;
+}
+
+.pe-modal-box::before {
+  content          : '';
+  position         : absolute;
+  top              : 0;
+  left             : 20%;
+  right            : 20%;
+  height           : 1px;
+  background       : linear-gradient(90deg, transparent, rgba(255,255,255,.92), transparent);
+  pointer-events   : none;
+}
+
+@keyframes peModalIn {
+  from { opacity: 0; transform: translateY(20px) scale(.95); }
+  to   { opacity: 1; transform: translateY(0)     scale(1); }
+}
+
+.pe-modal-icon {
+  width            : 56px;
+  height           : 56px;
+  border-radius    : 50%;
+  background       : var(--red-tint);
+  border           : 1px solid var(--red-ring);
+  color            : var(--red);
+  display          : flex;
+  align-items      : center;
+  justify-content  : center;
+  margin           : 0 auto 1.25rem;
+  box-shadow       : 0 0 0 8px rgba(220,38,38,.06);
+}
+
+.pe-modal-title {
+  font-family      : var(--pe-serif);
+  font-size        : clamp(1.25rem, 2vw, 1.625rem);
+  font-weight      : 400;
+  color            : var(--ink);
+  letter-spacing   : -.02em;
+  margin-bottom    : .5rem;
+}
+
+.pe-modal-desc {
+  font-size        : var(--sz-lg);
+  color            : var(--ink-55);
+  line-height      : 1.7;
+  margin-bottom    : 1.875rem;
+}
+
+.pe-modal-actions {
+  display          : flex;
+  gap              : var(--s3);
+  justify-content  : center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §13  BUTTON SYSTEM  (pe- prefix to avoid conflicts)
+───────────────────────────────────────────────────────────────────── */
+
+/* Base */
+.pe-btn {
+  display          : inline-flex;
+  align-items      : center;
+  justify-content  : center;
+  gap              : .4rem;
+  min-height       : 40px;
+  padding          : 0 var(--s5);
+  border-radius    : var(--r-md);
+  font-family      : var(--pe-geist);
+  font-size        : var(--sz-lg);
+  font-weight      : 600;
+  cursor           : pointer;
+  border           : none;
+  white-space      : nowrap;
+  text-decoration  : none;
+  transition       : opacity var(--t1), transform var(--ts),
+                     box-shadow var(--t2), background var(--t1),
+                     border-color var(--t1), color var(--t1);
+  will-change      : transform;
+}
+
+.pe-btn:focus-visible {
+  outline          : 2px solid var(--accent);
+  outline-offset   : 2px;
+}
+
+.pe-btn:active { transform: translateY(0) !important; }
+
+/* Primary */
+.pe-btn--primary {
+  background       : linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+  color            : #fff;
+  box-shadow       : var(--e-accent);
+}
+
+.pe-btn--primary:hover {
+  opacity          : .92;
+  transform        : translateY(-2px);
+  box-shadow       : 0 6px 24px rgba(28,82,238,.34);
+}
+
+/* Outline */
+.pe-btn--outline {
+  background       : var(--surface-0);
+  border           : 1.5px solid var(--ink-18);
+  color            : var(--ink-55);
+}
+
+.pe-btn--outline:hover {
+  background       : var(--ink-06);
+  border-color     : var(--ink-28);
+  color            : var(--ink);
+  transform        : translateY(-1px);
+}
+
+/* Ghost */
+.pe-btn--ghost {
+  background       : transparent;
+  border           : 1.5px solid transparent;
+  color            : var(--ink-40);
+}
+
+.pe-btn--ghost:hover {
+  background       : var(--ink-06);
+  color            : var(--ink);
+}
+
+/* Destructive */
+.pe-btn--destructive {
+  background       : linear-gradient(135deg, var(--red), var(--red-hi));
+  color            : #fff;
+  box-shadow       : 0 4px 18px rgba(220,38,38,.26);
+}
+
+.pe-btn--destructive:hover {
+  opacity          : .90;
+  transform        : translateY(-2px);
+  box-shadow       : 0 8px 28px rgba(220,38,38,.34);
+}
+
+/* Gold / Pro */
+.pe-btn--gold {
+  background       : linear-gradient(135deg, var(--amber), #F59E0B);
+  color            : #fff;
+  box-shadow       : 0 4px 18px rgba(217,119,6,.26);
+}
+
+.pe-btn--gold:hover {
+  opacity          : .90;
+  transform        : translateY(-2px);
+  box-shadow       : 0 8px 28px rgba(217,119,6,.34);
+}
+
+/* Full-width modifier */
+.pe-btn--full {
+  width            : 100%;
+  min-height       : 44px;
+}
+
+/* Loading state */
+.pe-btn.is-loading {
+  pointer-events   : none;
+  opacity          : .72;
+}
+
+.pe-btn.is-loading::after {
+  content          : '';
+  width            : 14px;
+  height           : 14px;
+  border           : 2px solid rgba(255,255,255,.40);
+  border-top-color : #fff;
+  border-radius    : 50%;
+  animation        : peSpin .7s linear infinite;
+  margin-left      : .25rem;
+}
+
+@keyframes peSpin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §14  SCROLL REVEAL UTILITY
+───────────────────────────────────────────────────────────────────── */
+
+.pe-reveal {
+  opacity          : 0;
+  transform        : translateY(16px);
+  transition       : opacity var(--ms-4) var(--ease-out),
+                     transform var(--ms-4) var(--ease-out);
+  transition-delay : calc(var(--ri, 0) * 70ms);
+}
+
+.pe-reveal.pe-visible {
+  opacity          : 1;
+  transform        : translateY(0);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §15  RESPONSIVE — 4 breakpoints
+───────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .pe-layout {
+    grid-template-columns: 1fr 260px;
+  }
+}
+
+@media (max-width: 991px) {
+  .pe-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sidebar moves below main on tablet — reversed flow */
+  .pe-col-side {
+    position         : static;
+    flex-direction   : row;
+    flex-wrap        : wrap;
+    gap              : var(--s4);
+  }
+
+  .pe-col-side > * {
+    flex             : 1;
+    min-width        : 220px;
+  }
+
+  .pe-save-shortcut {
+    width            : 100%;
+    flex-direction   : row;
+    justify-content  : flex-end;
+    align-items      : center;
+  }
+}
+
+@media (max-width: 767px) {
+  .pe-header {
+    flex-direction   : column;
+    align-items      : flex-start;
+    gap              : var(--s4);
+  }
+
+  .pe-header-right {
+    width            : 100%;
+    justify-content  : flex-end;
+  }
+
+  .pe-field-row,
+  .pe-limits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pe-card-body { padding: 1.125rem; }
+  .pe-card-head { padding: 1rem 1.125rem .875rem; }
+}
+
+@media (max-width: 575px) {
+  .pe-heading         { font-size: 1.5rem; }
+  .pe-header-divider  { display: none; }
+  .pe-plan-preview    { display: none; }
+  .pe-col-side        { flex-direction: column; }
+
+  .pe-modal-box {
+    padding            : 1.75rem 1.25rem 1.5rem;
+  }
+
+  .pe-modal-actions {
+    flex-direction     : column-reverse;
+  }
+
+  .pe-modal-actions .pe-btn {
+    width              : 100%;
+    justify-content    : center;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   §16  REDUCED-MOTION GATE
+───────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .pe-reveal,
+  .pe-feat-row,
+  .pe-savings-callout,
+  .pe-modal-box,
+  .pe-modal-backdrop,
+  .pe-eyebrow-dot {
+    animation        : none !important;
+    transition       : none !important;
+    opacity          : 1 !important;
+    transform        : none !important;
+  }
+
+  .pe-switch-thumb { transition: none !important; }
+}

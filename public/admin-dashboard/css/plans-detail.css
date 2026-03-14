@@ -1,0 +1,1124 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   plans-detail.css  ·  ProposalCraft Admin  ·  Supreme Edition
+   ─────────────────────────────────────────────────────────────────────
+   Prefix  : pvd-  (Plan View Detail) — 100% unique, zero leakage
+   Fonts   : Instrument Serif (headings/prices) · Geist (all UI)
+   Tokens  : inherited from dashboard.css :root only
+   Scope   : .pvd-page wraps every rule — nothing bleeds outside
+   ─────────────────────────────────────────────────────────────────────
+   §1   Font scope + shell
+   §2   Back link
+   §3   Page header
+   §4   KPI strip
+   §5   Two-column layout
+   §6   Card shell (shared)
+   §7   Form system (fields · inputs · affixes · textarea)
+   §8   Features list (drag rows)
+   §9   Limits grid
+   §10  General settings (toggle rows)
+   §11  Subscriber snapshot
+   §12  Danger zone
+   §13  Toggle switch  (pvd-toggle — fully isolated from pc-toggle)
+   §14  Button system  (pvd-btn variants)
+   §15  Delete modal
+   §16  Scroll-reveal utility
+   §17  Responsive  (1200 · 991 · 767 · 575)
+   §18  Reduced motion gate
+═══════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────
+   §1  FONT SCOPE + SHELL
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-page {
+    --pvd-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --pvd-sans:  "Geist", "DM Sans", system-ui, -apple-system, sans-serif;
+    font-family: var(--pvd-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+.pvd-page *,
+.pvd-page *::before,
+.pvd-page *::after {
+    box-sizing: border-box;
+    font-family: var(--pvd-sans);
+}
+
+.pvd-page > * + * {
+    margin-top: var(--s6);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §2  BACK LINK
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--ink-40);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    margin-left: -0.25rem;
+    border-radius: var(--r-sm);
+    transition: color var(--t1), background var(--t1);
+}
+
+.pvd-back:hover {
+    color: var(--ink);
+    background: var(--ink-06);
+    text-decoration: none;
+}
+
+.pvd-back:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §3  PAGE HEADER
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--s6);
+    padding-bottom: var(--s6);
+    border-bottom: 1px solid var(--ink-06);
+    flex-wrap: wrap;
+}
+
+.pvd-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--sz-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--s2);
+}
+
+.pvd-eyebrow-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    animation: pvdPulse 3s ease-in-out infinite;
+}
+
+@keyframes pvdPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: .5; transform: scale(1.5); }
+}
+
+.pvd-title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    flex-wrap: wrap;
+    margin-bottom: var(--s2);
+}
+
+.pvd-heading {
+    font-family: var(--pvd-serif);
+    font-size: clamp(1.875rem, 2.5vw + 0.75rem, 2.875rem);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.028em;
+    line-height: 1.06;
+}
+
+/* Slug badge — per plan slug colours */
+.pvd-slug-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: var(--r-pill);
+    font-size: var(--sz-2xs);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+.pvd-slug-badge--free    { background: var(--ink-06);    color: var(--ink-40);   border-color: var(--ink-10); }
+.pvd-slug-badge--pro     { background: var(--accent-tint); color: var(--accent);  border-color: rgba(28,82,238,.18); }
+.pvd-slug-badge--agency  { background: var(--amber-tint, #fef3c7); color: var(--amber); border-color: rgba(217,119,6,.2); }
+
+.pvd-popular-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--sz-2xs);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: linear-gradient(135deg, var(--accent-tint), #d6e8ff);
+    border: 1px solid rgba(28,82,238,.18);
+    border-radius: var(--r-pill);
+    padding: 0.22rem 0.65rem;
+}
+
+.pvd-subheading {
+    font-size: var(--sz-lg);
+    color: var(--ink-40);
+    line-height: 1.65;
+    max-width: 480px;
+}
+
+.pvd-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s4);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.pvd-live-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+}
+
+.pvd-live-label {
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--ink-40);
+    min-width: 4ch;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §4  KPI STRIP
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s3);
+}
+
+.pvd-kpi {
+    background: var(--surface-0);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-lg);
+    padding: 1.125rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--e1);
+    transition: transform var(--t2), box-shadow var(--t2), border-color var(--t2);
+    will-change: transform;
+    animation: pvdKpiIn 0.5s var(--ease-out) both;
+    animation-delay: calc(var(--pvd-i, 0) * 70ms + 60ms);
+}
+
+@keyframes pvdKpiIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Crown shimmer */
+.pvd-kpi::after {
+    content: "";
+    position: absolute;
+    inset: 0 15% auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent);
+    pointer-events: none;
+}
+
+.pvd-kpi:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--e3);
+    border-color: var(--ink-18);
+}
+
+.pvd-kpi-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--r-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pvd-kpi-icon--blue   { background: var(--accent-tint); color: var(--accent); }
+.pvd-kpi-icon--green  { background: var(--green-tint);  color: var(--green); }
+.pvd-kpi-icon--amber  { background: var(--amber-tint, #fef3c7); color: var(--amber); }
+.pvd-kpi-icon--rose   { background: var(--red-tint, #fef2f2);   color: var(--red); }
+
+.pvd-kpi-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.pvd-kpi-val {
+    font-family: var(--pvd-serif);
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.pvd-kpi-lbl {
+    font-size: var(--sz-xs);
+    font-weight: 600;
+    color: var(--ink-40);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §5  TWO-COLUMN LAYOUT
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--s5);
+    align-items: start;
+}
+
+.pvd-col-main,
+.pvd-col-side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s5);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §6  CARD SHELL
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-card {
+    background: var(--surface-0);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--e1);
+    transition: box-shadow var(--t2);
+}
+
+.pvd-card--tinted { background: var(--surface-1); }
+
+.pvd-card--danger {
+    background: var(--red-tint, #fef2f2);
+    border-color: rgba(220,38,38,.14);
+}
+
+/* Crown shimmer */
+.pvd-card::before {
+    content: "";
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent);
+    pointer-events: none;
+}
+
+.pvd-card-hd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem 0.875rem;
+    gap: var(--s3);
+    flex-wrap: wrap;
+}
+
+.pvd-card-hd-left {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.pvd-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pvd-dot--blue   { background: var(--accent); }
+.pvd-dot--green  { background: var(--green); }
+.pvd-dot--amber  { background: var(--amber); }
+.pvd-dot--purple { background: #7c3aed; }
+.pvd-dot--red    { background: var(--red); }
+
+.pvd-card-title {
+    font-size: var(--sz-xl);
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+}
+
+.pvd-card-title--red { color: var(--red); }
+
+.pvd-stripe-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--sz-2xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: var(--green-tint);
+    border: 1px solid var(--green-ring);
+    border-radius: var(--r-pill);
+    padding: 0.22rem 0.65rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §7  FORM SYSTEM
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-form {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.125rem;
+}
+
+.pvd-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.pvd-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.pvd-field--full { grid-column: 1 / -1; }
+
+.pvd-label {
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--ink-55);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pvd-hint {
+    font-size: var(--sz-2xs);
+    font-weight: 500;
+    color: var(--ink-28);
+}
+
+/* Input group with affix */
+.pvd-igroup {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+}
+
+.pvd-affix {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    font-size: var(--sz-md);
+    font-weight: 600;
+    color: var(--ink-40);
+    background: var(--surface-1);
+    border: 1.5px solid var(--ink-18);
+    flex-shrink: 0;
+    user-select: none;
+    transition: border-color var(--t1);
+}
+
+.pvd-igroup--pre .pvd-affix  { border-right: none; border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.pvd-igroup--pre .pvd-input  { border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+.pvd-igroup--suf .pvd-input  { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.pvd-affix--r { border-left: none; border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+
+/* Base input */
+.pvd-input {
+    width: 100%;
+    flex: 1;
+    padding: 0.6875rem 1rem;
+    border: 1.5px solid var(--ink-18);
+    border-radius: var(--r-sm);
+    font-size: var(--sz-lg);
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--surface-0);
+    outline: none;
+    transition: border-color var(--t1), box-shadow var(--t1);
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.pvd-input::placeholder { color: var(--ink-18); }
+
+.pvd-input:hover { border-color: var(--ink-28); }
+
+.pvd-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(28,82,238,.1);
+}
+
+.pvd-igroup:focus-within .pvd-affix { border-color: var(--accent); }
+
+/* Remove number spinners */
+.pvd-input[type="number"] { -moz-appearance: textfield; }
+.pvd-input[type="number"]::-webkit-inner-spin-button,
+.pvd-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.pvd-textarea {
+    resize: vertical;
+    min-height: 86px;
+    line-height: 1.6;
+}
+
+.pvd-savings {
+    font-size: var(--sz-xs);
+    font-weight: 700;
+    color: var(--green);
+    min-height: 1.1em;
+}
+
+/* Form footer row */
+.pvd-form-foot {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    padding-top: var(--s2);
+}
+
+.pvd-form-foot--pad { padding: 0 1.5rem 1.5rem; }
+
+/* Inline save status */
+.pvd-status {
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity var(--t2);
+}
+
+.pvd-status.ok  { color: var(--green); opacity: 1; }
+.pvd-status.err { color: var(--red);   opacity: 1; }
+
+/* ─────────────────────────────────────────────────────────────────────
+   §8  FEATURES LIST
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-feat-list {
+    list-style: none;
+    margin: 0 1.5rem;
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-md);
+    overflow: hidden;
+}
+
+.pvd-feat-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    padding: 0.625rem 1rem;
+    background: var(--surface-0);
+    border-bottom: 1px solid var(--ink-06);
+    transition: background var(--t1);
+}
+
+.pvd-feat-row:last-child { border-bottom: none; }
+.pvd-feat-row:hover      { background: var(--ink-03); }
+
+.pvd-feat-row.pvd-dragging {
+    opacity: 0.45;
+    background: var(--accent-tint);
+}
+
+.pvd-feat-grip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    color: var(--ink-18);
+    cursor: grab;
+    flex-shrink: 0;
+    border-radius: var(--r-xs);
+    transition: color var(--t1);
+}
+
+.pvd-feat-grip:hover { color: var(--ink-40); }
+.pvd-feat-grip:active { cursor: grabbing; }
+
+.pvd-feat-txt {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: var(--sz-md);
+    font-weight: 400;
+    color: var(--ink-55);
+    outline: none;
+    padding: 0.2rem 0;
+    min-width: 0;
+    transition: color var(--t1);
+}
+
+.pvd-feat-txt::placeholder { color: var(--ink-18); }
+.pvd-feat-txt:focus         { color: var(--ink); }
+
+.pvd-feat-rm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--ink-18);
+    cursor: pointer;
+    border-radius: var(--r-sm);
+    flex-shrink: 0;
+    padding: 0;
+    transition: color var(--t1), background var(--t1);
+}
+
+.pvd-feat-rm:hover {
+    color: var(--red);
+    background: var(--red-tint, #fef2f2);
+}
+
+.pvd-feat-rm:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §9  LIMITS GRID
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-limits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.625rem;
+}
+
+.pvd-limit-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    background: var(--surface-1);
+    border: 1px solid var(--ink-06);
+    border-radius: var(--r-md);
+    padding: 0.75rem 0.875rem;
+    transition: border-color var(--t1), background var(--t1);
+}
+
+.pvd-limit-cell:focus-within {
+    border-color: var(--accent);
+    background: var(--surface-0);
+    box-shadow: 0 0 0 3px rgba(28,82,238,.07);
+}
+
+.pvd-limit-lbl {
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--ink-55);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    cursor: default;
+    flex: 1;
+    min-width: 0;
+}
+
+.pvd-lim-input {
+    width: 68px;
+    flex: none;
+    text-align: right;
+    padding: 0.35rem 0.625rem;
+    border-radius: var(--r-xs);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §10  GENERAL SETTINGS — toggle rows
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-trow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s4);
+    padding: 0.875rem 0;
+    border-top: 1px solid var(--ink-06);
+}
+
+.pvd-trow-label {
+    font-size: var(--sz-md);
+    font-weight: 600;
+    color: var(--ink-55);
+    display: block;
+}
+
+.pvd-trow-hint {
+    font-size: var(--sz-xs);
+    color: var(--ink-28);
+    display: block;
+    margin-top: 0.1rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §11  SUBSCRIBER SNAPSHOT
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-snap {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.pvd-snap-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s4);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--ink-06);
+}
+
+.pvd-snap-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.pvd-snap-lbl {
+    font-size: var(--sz-md);
+    font-weight: 500;
+    color: var(--ink-40);
+    flex: 1;
+    min-width: 0;
+}
+
+.pvd-snap-val {
+    font-family: var(--pvd-serif);
+    font-size: var(--sz-2xl);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §12  DANGER ZONE
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-danger-copy {
+    font-size: var(--sz-md);
+    color: var(--ink-40);
+    line-height: 1.65;
+    padding: 0 1.5rem 1rem;
+    border-bottom: 1px solid rgba(220,38,38,.1);
+}
+
+.pvd-danger-actions {
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+.pvd-danger-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.625rem 1rem;
+    border: 1.5px solid rgba(220,38,38,.2);
+    border-radius: var(--r-md);
+    font-size: var(--sz-md);
+    font-weight: 600;
+    color: var(--red);
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--t1), border-color var(--t1), transform var(--ts), box-shadow var(--t2);
+}
+
+.pvd-danger-btn:hover {
+    background: rgba(220,38,38,.06);
+    border-color: rgba(220,38,38,.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(220,38,38,.1);
+}
+
+.pvd-danger-btn:active { transform: translateY(0); }
+
+.pvd-danger-btn:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+}
+
+.pvd-danger-btn--red {
+    background: rgba(220,38,38,.06);
+    border-color: rgba(220,38,38,.28);
+}
+
+.pvd-danger-btn--red:hover { border-color: var(--red); }
+
+.pvd-danger-hint {
+    margin-left: auto;
+    font-size: var(--sz-2xs);
+    font-weight: 500;
+    color: rgba(220,38,38,.5);
+    white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §13  TOGGLE SWITCH  (pvd-toggle — isolated, no conflict with pc-toggle)
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    user-select: none;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.pvd-toggle--xs {
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.pvd-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.pvd-toggle-track {
+    width: 38px;
+    height: 22px;
+    border-radius: 9999px;
+    background: var(--ink-10);
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.08);
+}
+
+.pvd-toggle--xs .pvd-toggle-track {
+    width: 32px;
+    height: 18px;
+}
+
+.pvd-toggle-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(8,10,18,.18), 0 0 0 1px rgba(8,10,18,.06);
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+.pvd-toggle--xs .pvd-toggle-thumb { width: 14px; height: 14px; }
+
+/* Checked state */
+.pvd-toggle-input:checked ~ .pvd-toggle-track {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hi));
+    box-shadow: 0 2px 12px rgba(28,82,238,.28);
+}
+
+.pvd-toggle-input:checked ~ .pvd-toggle-track .pvd-toggle-thumb {
+    transform: translateX(16px);
+    box-shadow: 0 2px 6px rgba(28,82,238,.28), 0 0 0 1px rgba(28,82,238,.14);
+}
+
+.pvd-toggle--xs .pvd-toggle-input:checked ~ .pvd-toggle-track .pvd-toggle-thumb {
+    transform: translateX(14px);
+}
+
+/* Hover ring */
+.pvd-toggle:hover .pvd-toggle-track {
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.08), 0 0 0 3px rgba(28,82,238,.1);
+}
+
+/* Focus ring */
+.pvd-toggle-input:focus-visible ~ .pvd-toggle-track {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Saving state */
+.pvd-toggle.pvd-saving .pvd-toggle-track {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §14  BUTTON SYSTEM  (pvd-btn — isolated, no conflict with btn-* classes)
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0 var(--s5);
+    border-radius: var(--r-md);
+    font-size: var(--sz-lg);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    transition: opacity var(--t1), transform var(--ts), box-shadow var(--t2),
+                background var(--t1), border-color var(--t1), color var(--t1);
+    will-change: transform;
+}
+
+.pvd-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Primary */
+.pvd-btn--primary {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(28,82,238,.24);
+}
+
+.pvd-btn--primary:hover  { opacity: .92; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(28,82,238,.34); }
+.pvd-btn--primary:active { transform: translateY(0); }
+
+/* Outline */
+.pvd-btn--outline {
+    background: var(--surface-0);
+    border: 1.5px solid var(--ink-18);
+    color: var(--ink-55);
+}
+
+.pvd-btn--outline:hover  { background: var(--ink-06); border-color: var(--ink-28); color: var(--ink); transform: translateY(-1px); }
+.pvd-btn--outline:active { transform: translateY(0); }
+
+/* Ghost */
+.pvd-btn--ghost {
+    background: transparent;
+    border: none;
+    color: var(--ink-40);
+}
+
+.pvd-btn--ghost:hover { background: var(--ink-06); color: var(--ink); }
+
+/* Danger */
+.pvd-btn--danger {
+    background: linear-gradient(135deg, var(--red), var(--red-hi, #b91c1c));
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(220,38,38,.24);
+}
+
+.pvd-btn--danger:hover  { opacity: .9; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(220,38,38,.34); }
+.pvd-btn--danger:active { transform: translateY(0); }
+
+/* Small modifier */
+.pvd-btn--sm {
+    min-height: 36px;
+    padding: 0 var(--s4);
+    font-size: var(--sz-md);
+}
+
+/* Loading state */
+.pvd-btn.pvd-loading {
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §15  DELETE MODAL
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(13,15,20,.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1.5rem;
+    animation: pvdFadeIn 0.2s ease both;
+}
+
+.pvd-overlay[hidden] { display: none; }
+
+@keyframes pvdFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.pvd-modal {
+    background: var(--surface-0);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-xl);
+    padding: 2rem;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: var(--e4);
+    animation: pvdModalIn 0.28s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes pvdModalIn {
+    from { opacity: 0; transform: scale(.94) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.pvd-modal-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--red-tint, #fef2f2);
+    border: 1px solid rgba(220,38,38,.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--red);
+    margin-bottom: 1.25rem;
+}
+
+.pvd-modal-h {
+    font-family: var(--pvd-serif);
+    font-size: clamp(1.375rem, 2vw, 1.625rem);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.022em;
+    margin-bottom: 0.75rem;
+}
+
+.pvd-modal-body {
+    font-size: var(--sz-lg);
+    color: var(--ink-40);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+}
+
+.pvd-modal-body strong { color: var(--ink); font-weight: 700; }
+
+.pvd-modal-confirm-note {
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--ink-55);
+    margin-bottom: 0.5rem;
+}
+
+.pvd-modal-confirm-note code {
+    font-size: var(--sz-sm);
+    font-weight: 700;
+    color: var(--red);
+    background: var(--red-tint, #fef2f2);
+    border: 1px solid rgba(220,38,38,.18);
+    border-radius: var(--r-xs);
+    padding: 0.1rem 0.45rem;
+}
+
+.pvd-modal-input { margin-bottom: 1.25rem; }
+
+.pvd-modal-foot {
+    display: flex;
+    gap: var(--s3);
+    justify-content: flex-end;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §16  SCROLL-REVEAL UTILITY  (pvd-reveal — isolated from .reveal)
+───────────────────────────────────────────────────────────────────── */
+
+.pvd-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+    transition-delay: var(--pvd-reveal-delay, 0ms);
+}
+
+.pvd-reveal.pvd-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §17  RESPONSIVE
+───────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+    .pvd-layout    { grid-template-columns: 1fr 290px; }
+    .pvd-kpis      { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 991px) {
+    .pvd-header    { flex-direction: column; align-items: flex-start; gap: var(--s4); }
+    .pvd-layout    { grid-template-columns: 1fr; }
+    .pvd-col-side  { display: grid; grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 767px) {
+    .pvd-kpis     { grid-template-columns: repeat(2, 1fr); }
+    .pvd-col-side { grid-template-columns: 1fr; }
+    .pvd-row      { grid-template-columns: 1fr; }
+    .pvd-limits-grid { grid-template-columns: 1fr; }
+    .pvd-modal-foot  { flex-direction: column-reverse; }
+    .pvd-modal-foot .pvd-btn { width: 100%; }
+}
+
+@media (max-width: 575px) {
+    .pvd-kpis      { gap: var(--s2); }
+    .pvd-kpi       { padding: 0.875rem 1rem; }
+    .pvd-heading   { font-size: 1.875rem; }
+    .pvd-subheading { display: none; }
+    .pvd-header-actions { flex-direction: column; align-items: flex-start; gap: var(--s2); }
+    .pvd-danger-hint { display: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §18  REDUCED MOTION GATE
+───────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .pvd-kpi,
+    .pvd-modal,
+    .pvd-overlay,
+    .pvd-reveal {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .pvd-eyebrow-dot { animation: none !important; }
+    .pvd-toggle-thumb { transition: none !important; }
+}

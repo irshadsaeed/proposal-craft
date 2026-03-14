@@ -1,0 +1,828 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   plans-create.css  ·  ProposalCraft Admin  ·  Supreme Edition
+   ─────────────────────────────────────────────────────────────────────
+   Scope    : ALL classes prefixed  plnc-  (plan-create)
+              Zero collision with plans-view.css or dashboard.css
+   Sections :
+     1. Trigger button (in page header)
+     2. Backdrop
+     3. Drawer shell + open/close animation
+     4. Drawer header
+     5. Error banner
+     6. Form layout — fields, inputs, textarea
+     7. Input affix ($ prefix)
+     8. Features list + feature row
+     9. Toggles row
+    10. Savings preview chip
+    11. Form footer + buttons
+    12. Spinner keyframe
+    13. Responsive — 991 · 767 · 575
+    14. Reduced motion gate
+═══════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────
+   §1  TRIGGER BUTTON
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0 1.125rem;
+    border-radius: var(--r-md);
+    font-family: "Geist", "DM Sans", system-ui, sans-serif;
+    font-size: var(--sz-md);
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #fff;
+    box-shadow: var(--e-accent);
+    transition:
+        opacity 150ms ease,
+        transform 120ms ease,
+        box-shadow 200ms ease;
+    will-change: transform;
+}
+
+.plnc-trigger-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(28, 82, 238, 0.34);
+}
+
+.plnc-trigger-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--e-accent);
+}
+
+.plnc-trigger-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §2  BACKDROP
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background: rgba(8, 10, 18, 0.48);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plnc-backdrop.plnc-is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §3  DRAWER SHELL
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1201;
+    width: min(540px, 96vw);
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-0);
+    border-left: 1px solid var(--ink-10);
+    box-shadow:
+        -8px 0 48px rgba(8, 10, 18, 0.12),
+        -1px 0 0 rgba(8, 10, 18, 0.06);
+    overflow: hidden;
+
+    /* Slide from right — hidden */
+    transform: translateX(100%);
+    pointer-events: none;
+    transition: transform 340ms cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+}
+
+.plnc-drawer.plnc-is-open {
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* Scrollable body area */
+.plnc-form {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.75rem 1.625rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.375rem;
+    /* Custom scroll */
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-10) transparent;
+}
+
+.plnc-form::-webkit-scrollbar {
+    width: 4px;
+}
+.plnc-form::-webkit-scrollbar-track {
+    background: transparent;
+}
+.plnc-form::-webkit-scrollbar-thumb {
+    background: var(--ink-10);
+    border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §4  DRAWER HEADER
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-drawer-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.625rem 1.25rem;
+    border-bottom: 1px solid var(--ink-06);
+    flex-shrink: 0;
+    background: var(--surface-0);
+}
+
+.plnc-drawer-header-text {
+    min-width: 0;
+}
+
+.plnc-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--sz-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+}
+
+.plnc-eyebrow-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    animation: plncPulse 3s ease-in-out infinite;
+}
+
+@keyframes plncPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.55; transform: scale(0.78); }
+}
+
+.plnc-drawer-title {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: clamp(1.375rem, 2vw + 0.5rem, 1.75rem);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+}
+
+.plnc-drawer-desc {
+    font-size: var(--sz-sm);
+    color: var(--ink-40);
+    line-height: 1.55;
+}
+
+.plnc-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r-md);
+    background: var(--surface-1);
+    border: 1px solid var(--ink-10);
+    color: var(--ink-40);
+    cursor: pointer;
+    transition:
+        background 130ms ease,
+        color 130ms ease,
+        border-color 130ms ease;
+}
+
+.plnc-close-btn:hover {
+    background: var(--ink-06);
+    color: var(--ink);
+    border-color: var(--ink-18);
+}
+
+.plnc-close-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §5  ERROR BANNER
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-error-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.8rem 1.625rem;
+    background: var(--red-tint, #fef2f2);
+    border-bottom: 1px solid var(--red-ring, rgba(220,38,38,.18));
+    color: var(--red, #dc2626);
+    font-size: var(--sz-sm);
+    font-weight: 500;
+    flex-shrink: 0;
+    animation: plncSlideDown 220ms ease both;
+}
+
+@keyframes plncSlideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.plnc-error-banner svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §6  FORM LAYOUT — fields, inputs, textarea
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-row {
+    display: grid;
+    gap: 1rem;
+}
+
+.plnc-row--2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.plnc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.plnc-label {
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--ink-55);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+
+.plnc-label--no-margin {
+    margin-bottom: 0;
+}
+
+.plnc-label-hint {
+    font-size: var(--sz-xs);
+    font-weight: 400;
+    color: var(--ink-28);
+    letter-spacing: 0;
+}
+
+.plnc-required {
+    color: var(--red, #dc2626);
+    font-size: var(--sz-sm);
+}
+
+/* Input base */
+.plnc-input,
+.plnc-textarea {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.6rem 0.875rem;
+    font-family: "Geist", "DM Sans", system-ui, sans-serif;
+    font-size: var(--sz-md);
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--surface-0);
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--r-md);
+    outline: none;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background 150ms ease;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.plnc-input::placeholder,
+.plnc-textarea::placeholder {
+    color: var(--ink-18);
+    font-weight: 400;
+}
+
+.plnc-input:hover,
+.plnc-textarea:hover {
+    border-color: var(--ink-28);
+}
+
+.plnc-input:focus,
+.plnc-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(28, 82, 238, 0.1);
+    background: var(--surface-0);
+}
+
+/* Mono variant (slug, stripe IDs) */
+.plnc-input--mono {
+    font-family: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+    font-size: var(--sz-sm);
+    letter-spacing: 0.01em;
+}
+
+/* Textarea */
+.plnc-textarea {
+    resize: vertical;
+    min-height: 72px;
+    max-height: 200px;
+    line-height: 1.6;
+    padding: 0.7rem 0.875rem;
+}
+
+/* Validation error state */
+.plnc-input.plnc-input--error,
+.plnc-textarea.plnc-input--error {
+    border-color: var(--red, #dc2626);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.plnc-field-err {
+    font-size: var(--sz-xs);
+    color: var(--red, #dc2626);
+    font-weight: 500;
+    min-height: 1em;
+    display: block;
+}
+
+.plnc-field-hint {
+    font-size: var(--sz-xs);
+    color: var(--ink-28);
+    display: block;
+    margin-top: 0.1rem;
+}
+
+.plnc-field-hint--sm {
+    margin-top: -0.2rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §7  INPUT AFFIX  (currency $)
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-input-affix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.plnc-input-prefix {
+    position: absolute;
+    left: 0.875rem;
+    font-size: var(--sz-md);
+    font-weight: 500;
+    color: var(--ink-28);
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+}
+
+.plnc-input--has-prefix {
+    padding-left: 1.875rem;
+}
+
+/* Remove number input spinners */
+.plnc-input[type="number"]::-webkit-outer-spin-button,
+.plnc-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.plnc-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §8  FEATURES LIST
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-features-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.55rem;
+}
+
+.plnc-add-feature-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: var(--sz-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: var(--accent-tint, rgba(28,82,238,.06));
+    border: 1px solid rgba(28, 82, 238, 0.18);
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    transition:
+        background 130ms ease,
+        border-color 130ms ease,
+        transform 120ms ease;
+}
+
+.plnc-add-feature-btn:hover {
+    background: rgba(28, 82, 238, 0.1);
+    border-color: rgba(28, 82, 238, 0.28);
+    transform: translateY(-1px);
+}
+
+.plnc-add-feature-btn:active {
+    transform: translateY(0);
+}
+
+.plnc-add-feature-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* List container */
+.plnc-features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+/* Individual feature row */
+.plnc-feat-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.6rem;
+    animation: plncFeatIn 200ms ease both;
+}
+
+@keyframes plncFeatIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Muted checkbox */
+.plnc-feat-muted-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.plnc-feat-muted-cb {
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    border: 1.5px solid var(--ink-18);
+    background: var(--surface-0);
+    accent-color: var(--ink-40);
+    cursor: pointer;
+    transition: border-color 130ms ease;
+}
+
+.plnc-feat-muted-cb:hover {
+    border-color: var(--ink-40);
+}
+
+/* Feature text input */
+.plnc-feat-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 0.75rem;
+    font-family: "Geist", system-ui, sans-serif;
+    font-size: var(--sz-sm);
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--surface-0);
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--r-md);
+    outline: none;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.plnc-feat-input::placeholder {
+    color: var(--ink-18);
+}
+
+.plnc-feat-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(28, 82, 238, 0.1);
+}
+
+/* When row is muted — dim the text input */
+.plnc-feat-row.plnc-feat-row--muted .plnc-feat-input {
+    color: var(--ink-28);
+    background: var(--surface-1);
+    border-style: dashed;
+}
+
+/* Remove button */
+.plnc-feat-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--r-sm);
+    background: transparent;
+    border: none;
+    color: var(--ink-18);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 130ms ease, background 130ms ease;
+}
+
+.plnc-feat-remove:hover {
+    color: var(--red, #dc2626);
+    background: var(--red-tint, #fef2f2);
+}
+
+.plnc-feat-remove:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Empty state inside feature list */
+.plnc-features-empty {
+    text-align: center;
+    padding: 1.25rem;
+    font-size: var(--sz-sm);
+    color: var(--ink-28);
+    border: 1.5px dashed var(--ink-10);
+    border-radius: var(--r-md);
+    background: var(--surface-1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §9  TOGGLES ROW
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-toggles-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--ink-06);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--surface-1);
+}
+
+.plnc-toggle-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    transition: background 120ms ease;
+}
+
+.plnc-toggle-item + .plnc-toggle-item {
+    border-top: 1px solid var(--ink-06);
+}
+
+.plnc-toggle-item:hover {
+    background: var(--ink-03);
+}
+
+.plnc-toggle-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    min-width: 0;
+}
+
+.plnc-toggle-label {
+    font-size: var(--sz-md);
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.plnc-toggle-hint {
+    font-size: var(--sz-xs);
+    color: var(--ink-40);
+    line-height: 1.45;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §10  SAVINGS PREVIEW CHIP
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-savings-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.875rem;
+    font-size: var(--sz-sm);
+    font-weight: 600;
+    color: var(--green, #16a34a);
+    background: var(--green-tint, rgba(22,163,74,.07));
+    border: 1px solid var(--green-ring, rgba(22,163,74,.2));
+    border-radius: var(--r-pill);
+    align-self: flex-start;
+    animation: plncFeatIn 200ms ease both;
+}
+
+.plnc-savings-preview svg {
+    color: var(--green, #16a34a);
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §11  FORM FOOTER + BUTTONS
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.125rem 1.625rem 1.375rem;
+    border-top: 1px solid var(--ink-06);
+    background: var(--surface-0);
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+}
+
+.plnc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0 1.25rem;
+    border-radius: var(--r-md);
+    font-family: "Geist", "DM Sans", system-ui, sans-serif;
+    font-size: var(--sz-md);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    white-space: nowrap;
+    border: none;
+    transition:
+        background 140ms ease,
+        color 140ms ease,
+        border-color 140ms ease,
+        transform 120ms ease,
+        box-shadow 200ms ease,
+        opacity 150ms ease;
+    will-change: transform;
+}
+
+.plnc-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Ghost */
+.plnc-btn--ghost {
+    background: transparent;
+    color: var(--ink-40);
+    border: 1.5px solid transparent;
+}
+.plnc-btn--ghost:hover {
+    background: var(--ink-06);
+    color: var(--ink);
+}
+
+/* Primary */
+.plnc-btn--primary {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hi) 100%);
+    color: #fff;
+    box-shadow: var(--e-accent, 0 4px 18px rgba(28,82,238,.26));
+}
+.plnc-btn--primary:hover {
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(28, 82, 238, 0.34);
+}
+.plnc-btn--primary:active {
+    transform: translateY(0);
+    box-shadow: var(--e-accent);
+}
+
+/* Disabled / loading state */
+.plnc-btn--primary:disabled,
+.plnc-btn--primary.plnc-is-loading {
+    opacity: 0.65;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §12  SPINNER KEYFRAME
+───────────────────────────────────────────────────────────────────── */
+
+.plnc-btn-spinner {
+    animation: plncSpin 0.75s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes plncSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §13  RESPONSIVE
+───────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 991px) {
+    .plnc-drawer {
+        width: min(480px, 96vw);
+    }
+}
+
+@media (max-width: 767px) {
+    .plnc-drawer {
+        width: 100vw;
+        border-left: none;
+        border-top: 1px solid var(--ink-10);
+    }
+
+    .plnc-row--2 {
+        grid-template-columns: 1fr;
+    }
+
+    .plnc-form {
+        padding: 1.375rem 1.25rem 1.75rem;
+    }
+
+    .plnc-drawer-header {
+        padding: 1.25rem 1.25rem 1rem;
+    }
+
+    .plnc-form-footer {
+        padding: 1rem 1.25rem 1.25rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .plnc-form-footer {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .plnc-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   §14  REDUCED MOTION GATE
+───────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .plnc-backdrop,
+    .plnc-drawer,
+    .plnc-trigger-btn,
+    .plnc-btn,
+    .plnc-feat-row {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .plnc-eyebrow-dot {
+        animation: none !important;
+    }
+
+    .plnc-btn-spinner {
+        animation: none !important;
+    }
+}

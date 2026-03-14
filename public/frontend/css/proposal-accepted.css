@@ -1,0 +1,370 @@
+/* ============================================================
+   proposal-accepted.css
+   Post-acceptance confirmation page — celebratory, clean, referral-focused
+   ============================================================ */
+
+:root {
+    --brand: #1a56f0;
+    --brand-dark: #1240cc;
+    --brand-dim: #ebf0fe;
+    --brand-glow: rgba(26, 86, 240, 0.18);
+    --ink: #0d0f14;
+    --ink-80: #2b2f3a;
+    --ink-60: #4a5068;
+    --ink-50: #7a7f8e;
+    --ink-30: #b0b4c0;
+    --ink-20: #d4d6dc;
+    --ink-10: #eceef2;
+    --ink-05: #f4f5f7;
+    --paper: #fafaf9;
+    --emerald: #0dbd7f;
+    --emerald-dim: #e5faf4;
+    --font-display: "DM Serif Display", Georgia, serif;
+    --font-body: "DM Sans", system-ui, sans-serif;
+    --r-md: 14px;
+    --r-lg: 24px;
+    --r-xl: 40px;
+    --r-pill: 9999px;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 16px;
+}
+body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink-80);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── CONFETTI ──────────────────────────────────────────────── */
+.pa-confetti-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* ── WRAPPER ───────────────────────────────────────────────── */
+.pa-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ── CARD ──────────────────────────────────────────────────── */
+.pa-card {
+    background: var(--white, #fff);
+    border: 1px solid var(--ink-10);
+    border-radius: var(--r-xl);
+    padding: 2.75rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(13, 15, 20, 0.1);
+}
+
+/* ── ANIMATE IN ────────────────────────────────────────────── */
+.pa-animate-in {
+    animation: paCardIn 0.7s var(--ease-spring) both;
+}
+@keyframes paCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── ICON ──────────────────────────────────────────────────── */
+.pa-icon-wrap {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pa-icon-ring {
+    position: absolute;
+    border-radius: 50%;
+    animation: paRingPulse 2.5s ease-in-out infinite;
+}
+.pa-ring-1 {
+    inset: -8px;
+    border: 2px solid rgba(13, 189, 127, 0.25);
+    animation-delay: 0s;
+}
+.pa-ring-2 {
+    inset: -18px;
+    border: 1.5px solid rgba(13, 189, 127, 0.12);
+    animation-delay: 0.4s;
+}
+@keyframes paRingPulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.06);
+        opacity: 0.6;
+    }
+}
+.pa-icon-core {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--emerald);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(13, 189, 127, 0.35);
+    animation: paIconBounce 0.6s 0.3s var(--ease-spring) both;
+}
+@keyframes paIconBounce {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ── TEXT ──────────────────────────────────────────────────── */
+.pa-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 4vw, 2.5rem);
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+}
+.pa-subheading {
+    font-size: 0.9375rem;
+    color: var(--ink-50);
+    line-height: 1.75;
+    max-width: 400px;
+    margin: 0 auto 2rem;
+}
+.pa-subheading strong {
+    color: var(--ink-80);
+    font-weight: 600;
+}
+
+/* ── SUMMARY ───────────────────────────────────────────────── */
+.pa-summary {
+    background: var(--ink-05);
+    border-radius: var(--r-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+.pa-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--ink-10);
+    font-size: 0.875rem;
+}
+.pa-summary-row:last-child {
+    border-bottom: none;
+}
+.pa-summary-label {
+    color: var(--ink-50);
+}
+.pa-summary-value {
+    color: var(--ink);
+    font-weight: 500;
+}
+.pa-amount {
+    color: var(--brand);
+    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1rem;
+}
+.pa-ip {
+    font-family: "Courier New", monospace;
+    font-size: 0.8rem;
+    color: var(--ink-50);
+}
+
+/* ── NEXT STEPS ────────────────────────────────────────────── */
+.pa-next-steps {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+.pa-next-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    margin-bottom: 1rem;
+}
+.pa-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+.pa-step {
+    display: flex;
+    gap: 0.875rem;
+    align-items: flex-start;
+}
+.pa-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--brand-dim);
+    color: var(--brand);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.pa-step-text {
+    font-size: 0.875rem;
+    color: var(--ink-60);
+    line-height: 1.65;
+    padding-top: 0.2rem;
+}
+.pa-step-text strong {
+    color: var(--ink-80);
+    font-weight: 600;
+}
+
+/* ── DOWNLOAD BTN ──────────────────────────────────────────── */
+.pa-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--ink-05);
+    color: var(--ink-60);
+    border: 1.5px solid var(--ink-20);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        border-color 0.15s,
+        color 0.15s,
+        background 0.15s,
+        transform 0.2s;
+    margin-bottom: 1.25rem;
+}
+.pa-download-btn:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+    background: var(--brand-dim);
+    transform: translateY(-1px);
+}
+
+/* ── CONTACT HINT ──────────────────────────────────────────── */
+.pa-contact-hint {
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    line-height: 1.6;
+}
+.pa-contact-hint a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* ── REFERRAL ──────────────────────────────────────────────── */
+.pa-referral {
+    text-align: center;
+    animation: paFadeIn 0.6s 0.5s var(--ease-out) both;
+}
+@keyframes paFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.pa-referral-text {
+    font-size: 0.8125rem;
+    color: var(--ink-50);
+    margin-bottom: 0.875rem;
+}
+.pa-referral-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.625rem;
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: var(--r-pill);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 6px 24px rgba(13, 15, 20, 0.2);
+    transition:
+        transform 0.2s var(--ease-out),
+        box-shadow 0.2s,
+        color 0.15s;
+    margin-bottom: 0.75rem;
+}
+.pa-referral-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(13, 15, 20, 0.28);
+    color: #fff;
+}
+.pa-referral-btn strong {
+    color: #fff;
+    font-weight: 700;
+}
+.pa-referral-logo {
+    font-size: 1rem;
+}
+.pa-referral-sub {
+    font-size: 0.75rem;
+    color: var(--ink-30);
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 575px) {
+    .pa-card {
+        padding: 2rem 1.5rem;
+        border-radius: var(--r-lg);
+    }
+    .pa-heading {
+        font-size: 1.75rem;
+    }
+    .pa-summary {
+        padding: 1rem 1.125rem;
+    }
+}
