@@ -32,6 +32,7 @@
   <script>document.documentElement.classList.replace('no-js','js');</script>
 </head>
 <body class="admin-body">
+  
 
   <a href="#adminContent" class="skip-to-content">Skip to content</a>
 
