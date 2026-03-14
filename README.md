@@ -1,59 +1,233 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🚀 ProposalCraft — Professional Proposal Builder for Freelancers & Agencies
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ProposalCraft is a modern SaaS platform that helps freelancers, agencies, consultants, and service providers create, manage, and send high-quality professional proposals to clients with speed, clarity, and impact.
 
-## About Laravel
+Instead of writing proposals manually every time, ProposalCraft enables users to generate structured, visually clean, and conversion-focused proposals that impress clients and increase project win rates.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The platform focuses on simplicity, speed, and professionalism, allowing teams and independent professionals to streamline their proposal workflow.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+🌍 Why ProposalCraft
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Freelancers and agencies often struggle with:
 
-## Learning Laravel
+• Writing proposals from scratch
+• Maintaining consistent proposal quality
+• Managing multiple client proposals
+• Presenting services in a professional format
+• Tracking proposal communications
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+ProposalCraft solves this by providing a centralized system to:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+✔ Create structured proposals
+✔ Manage clients and communications
+✔ Present services professionally
+✔ Organize proposal workflows
+✔ Save time and increase productivity
 
-## Laravel Sponsors
+✨ Core Features
+📄 Professional Proposal Builder
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Create structured, professional proposals in minutes.
 
-### Premium Partners
+• Clean structured proposal layout
+• Sections for services, pricing, scope, and details
+• Rich content editing support
+• Professional formatting
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+👥 Client Management
 
-## Contributing
+Manage and organize client communication.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+• Store client details
+• Link proposals with clients
+• Maintain client records
+• Centralized client database
 
-## Code of Conduct
+📊 Admin Dashboard
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+A modern dashboard designed for productivity.
 
-## Security Vulnerabilities
+• Proposal management
+• Client management
+• Contact messages
+• Blog & content management
+• System overview
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+📝 Rich Content Editing
 
-## License
+Write professional proposals with flexible content formatting.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+• Structured content blocks
+• Headings and sections
+• Service descriptions
+• Proposal scope definitions
+
+📬 Contact & Communication System
+
+Built-in contact system for user communication.
+
+• Client contact form
+• Admin contact management
+• Status tracking (Unread / Read / Replied)
+
+📰 Blog Management System
+
+Content management for marketing and SEO.
+
+• Blog categories
+• Tags management
+• Featured posts
+• SEO fields
+• Image uploads
+
+🔒 Secure Authentication
+
+Secure authentication system for administrators.
+
+• Login system
+• Protected admin dashboard
+• Session management
+
+🧠 Built for Real-World Workflow
+
+ProposalCraft is designed to reflect real freelancer and agency workflows, where proposals must be:
+
+✔ Professional
+✔ Fast to create
+✔ Consistent in structure
+✔ Easy to manage
+✔ Ready to present to clients
+
+🛠 Technology Stack
+Backend
+
+• PHP
+• Laravel Framework
+
+Frontend
+
+• Blade Templates
+• JavaScript
+• Modern CSS
+
+Database
+
+• MySQL
+
+Development Tools
+
+• Composer
+• Vite
+• Git
+• GitHub
+
+🏗 System Architecture
+
+ProposalCraft follows a clean MVC architecture using Laravel best practices.
+
+Key Components
+
+• Controllers for business logic
+• Blade views for UI rendering
+• Eloquent ORM for database operations
+• Modular admin dashboard structure
+• Organized resource assets
+
+📂 Project Structure
+proposal-craft
+│
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│
+├── public/
+├── resources/
+│   ├── views/
+│   ├── css/
+│   └── js/
+│
+├── routes/
+├── storage/
+├── tests/
+│
+├── artisan
+├── composer.json
+└── vite.config.js
+⚙️ Installation Guide
+1️⃣ Clone the Repository
+git clone https://github.com/irshadsaeed/proposal-craft.git
+2️⃣ Navigate to Project
+cd proposal-craft
+3️⃣ Install Dependencies
+composer install
+4️⃣ Setup Environment File
+cp .env.example .env
+5️⃣ Generate Application Key
+php artisan key:generate
+6️⃣ Configure Database
+
+Update .env
+
+DB_DATABASE=proposal_craft
+DB_USERNAME=root
+DB_PASSWORD=
+7️⃣ Run Database Migrations
+php artisan migrate
+8️⃣ Start Development Server
+php artisan serve
+📸 Platform Modules
+
+Current implemented modules include:
+
+• Admin Dashboard
+• Blog Management
+• Contact Management
+• Proposal System (in development)
+• Client communication features
+
+🚧 Development Status
+
+⚠ Active Development
+
+ProposalCraft is currently evolving into a complete SaaS product. New features and improvements are continuously being added.
+
+🔮 Future Roadmap
+
+Upcoming features include:
+
+• Proposal templates
+• Proposal sharing links
+• Client approval system
+• Digital signatures
+• Payment integrations
+• Proposal analytics
+• Team collaboration tools
+• SaaS subscription model
+
+🌎 Vision
+
+The goal of ProposalCraft is to become a complete proposal management SaaS platform for freelancers and agencies worldwide.
+
+It aims to simplify proposal workflows while delivering professional presentation quality that wins clients.
+
+👨‍💻 Author
+
+Irshad Saeed
+
+Portfolio
+https://irshad-portfolio-version-02.vercel.app/
+
+LinkedIn
+https://linkedin.com/in/irshad-saeed-33329420a
+
+GitHub
+https://github.com/irshadsaeed
+
+⭐ Support the Project
+
+If you find this project helpful, consider giving it a star on GitHub.
+
+Your support helps improve and grow the project.
