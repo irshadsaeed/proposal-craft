@@ -4,12 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProposalSection;
-use App\Models\ProposalComment;
-use App\Models\ProposalView;
-use App\Models\ProposalTrackingEvent;
-use App\Models\ClientUser;
-
+use Illuminate\Support\Str;
 
 class Proposal extends Model
 {
@@ -18,14 +13,17 @@ class Proposal extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'client',
+        'client',           // string column — no relationship with same name
+        'client_email',
         'status',
         'amount',
-        'views_count',
+        'currency',
+        'views',            // fixed: was views_count
         'avg_time_open',
         'last_seen',
         'sent_at',
         'token',
+        'share_token',
         'first_viewed_at',
         'accepted_by',
         'accepted_email',
@@ -34,6 +32,7 @@ class Proposal extends Model
         'signature_path',
         'declined_at',
         'decline_reason',
+        'notes',
     ];
 
     protected $casts = [
@@ -41,9 +40,25 @@ class Proposal extends Model
         'accepted_at'     => 'datetime',
         'declined_at'     => 'datetime',
         'first_viewed_at' => 'datetime',
+        'last_seen'       => 'datetime',
         'amount'          => 'decimal:2',
+        'views'           => 'integer',
     ];
 
+    /* ── Boot: auto-generate tokens ── */
+    protected static function booted(): void
+    {
+        static::creating(function (self $proposal) {
+            if (empty($proposal->token)) {
+                $proposal->token = Str::uuid();
+            }
+            if (empty($proposal->share_token)) {
+                $proposal->share_token = Str::random(32);
+            }
+        });
+    }
+
+    /* ── Relationships ── */
     public function sender()
     {
         return $this->belongsTo(ClientUser::class, 'user_id');
@@ -51,12 +66,12 @@ class Proposal extends Model
 
     public function sections()
     {
-        return $this->hasMany(ProposalSection::class);
+        return $this->hasMany(ProposalSection::class)->orderBy('order');
     }
 
     public function comments()
     {
-        return $this->hasMany(ProposalComment::class);
+        return $this->hasMany(ProposalComment::class)->latest();
     }
 
     public function proposalViews()
@@ -69,8 +84,22 @@ class Proposal extends Model
         return $this->hasMany(ProposalTrackingEvent::class);
     }
 
-    public function client()
+    /* ── Helpers ── */
+    public function isOwnedBy(int $userId): bool
     {
-        return $this->belongsTo(ClientUser::class, 'user_id');
+        return $this->user_id === $userId;
+    }
+
+    public function markAsSent(): void
+    {
+        $this->update([
+            'status'  => 'sent',
+            'sent_at' => now(),
+        ]);
+    }
+
+    public function publicUrl(): string
+    {
+        return url('/p/' . $this->share_token);
     }
 }

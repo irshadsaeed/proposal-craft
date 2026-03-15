@@ -15,7 +15,6 @@ use App\Http\Controllers\ClientBackend\SettingsController;
 use App\Http\Controllers\ClientBackend\BillingController;
 use App\Http\Controllers\ClientBackend\TemplatesController;
 
-
 use App\Http\Controllers\AdminBackend\AdminAuthController;
 use App\Http\Controllers\AdminBackend\ClientUsersController;
 use App\Http\Controllers\AdminBackend\AdminDashboardController;
@@ -23,7 +22,6 @@ use App\Http\Controllers\AdminBackend\AdminUsersController;
 use App\Http\Controllers\AdminBackend\AdminPlansController;
 use App\Http\Controllers\AdminBackend\AdminRevenueController;
 use App\Http\Controllers\AdminBackend\AdminSettingsController;
-
 use App\Http\Controllers\AdminBackend\AdminBlogController;
 use App\Http\Controllers\AdminBackend\AdminContactsController;
 
@@ -36,17 +34,16 @@ Route::get('/changelog', [FrontendController::class, 'changelog'])->name('change
 Route::get('/press',     [FrontendController::class, 'press'])->name('press');
 Route::get('/security',  [FrontendController::class, 'security'])->name('security');
 Route::get('/demo',      fn() => redirect()->route('signup'))->name('demo');
-Route::get('/compare', [FrontendController::class, 'comparison'])->name('comparison');
+Route::get('/compare',   [FrontendController::class, 'comparison'])->name('comparison');
 Route::get('/customers', [FrontendController::class, 'socialProof'])->name('social-proof');
 
-// ── Plans ─────────────────────────────────────────────────────
+// ── Pricing ───────────────────────────────────────────────────
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 
 // ── Legal ─────────────────────────────────────────────────────
 Route::get('/privacy', [FrontendController::class, 'privacy'])->name('privacy');
 Route::get('/terms',   [FrontendController::class, 'terms'])->name('terms');
 Route::get('/cookies', [FrontendController::class, 'cookies'])->name('cookies');
-Route::get('/security', [FrontendController::class, 'security'])->name('security');
 
 // ── Blog ──────────────────────────────────────────────────────
 Route::prefix('blog')->name('blog.')->group(function () {
@@ -87,8 +84,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/client/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
 });
 
-Route::get('/reset-password/{token}',  [AuthController::class, 'showResetPassword'])->name('password.reset');
-Route::post('/reset-password',         [AuthController::class, 'resetPassword'])->name('password.update');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
+Route::post('/reset-password',        [AuthController::class, 'resetPassword'])->name('password.update');
 
 // ── Google OAuth ──────────────────────────────────────────────
 Route::get('/auth/google',          [AuthController::class, 'redirectToGoogle'])->name('auth.google');
@@ -100,61 +97,65 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // ── Backend (auth required) ───────────────────────────────────
 Route::middleware('auth')->prefix('dashboard')->group(function () {
 
-    Route::get('/',         [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/tracking', [DashboardController::class, 'tracking'])->name('tracking');
+    // Dashboard + global search
+    Route::get('/',       [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/search', [DashboardController::class, 'search'])->name('dashboard.search');
+
+    // Tracking
+    Route::get('/tracking',        [DashboardController::class, 'tracking'])->name('tracking');
     Route::get('/tracking/export', [DashboardController::class, 'exportTracking'])->name('tracking.export');
 
     // Proposals
-    Route::get('/proposals',                     [ProposalController::class, 'index'])->name('proposals');
-    Route::get('/new-proposal',                  [ProposalController::class, 'newProposal'])->name('new-proposal');
-    Route::get('/proposals/preview',             [ProposalController::class, 'proposalPreview'])->name('proposals.preview');
-    Route::post('/proposals/send',               [ProposalController::class, 'send'])->name('proposals.send');
-    Route::get('/proposals/{proposal}/edit',     [ProposalController::class, 'edit'])->name('proposals.edit');
-    Route::delete('/proposals/{proposal}',       [ProposalController::class, 'destroy'])->name('proposals.destroy');
+    // IMPORTANT: all static segments before {proposal} wildcard
+    Route::get('/proposals',                    [ProposalController::class, 'index'])->name('proposals');
+    Route::get('/proposals/search',             [ProposalController::class, 'search'])->name('proposals.search');
+    Route::get('/proposals/preview',            [ProposalController::class, 'proposalPreview'])->name('proposals.preview');
+    Route::get('/new-proposal',                 [ProposalController::class, 'newProposal'])->name('new-proposal');
 
+    Route::post('/proposals',                   [ProposalController::class, 'store'])->name('proposals.store');
+    Route::post('/proposals/send',              [ProposalController::class, 'send'])->name('proposals.send');
+
+    Route::get('/proposals/{proposal}/edit',    [ProposalController::class, 'edit'])->name('proposals.edit');
+    Route::put('/proposals/{proposal}',         [ProposalController::class, 'update'])->name('proposals.update');
+    Route::patch('/proposals/{proposal}/autosave', [ProposalController::class, 'autosave'])->name('proposals.autosave');
+    Route::delete('/proposals/{proposal}',      [ProposalController::class, 'destroy'])->name('proposals.destroy');
+    
+    
     // Settings
-    Route::get('/settings',                      [SettingsController::class, 'index'])->name('settings');
-    Route::put('/settings/profile',              [SettingsController::class, 'updateProfile'])->name('settings.profile');
-    Route::put('/settings/password',             [SettingsController::class, 'updatePassword'])->name('settings.password');
-    Route::put('/settings/branding',             [SettingsController::class, 'updateBranding'])->name('settings.branding');
-    Route::put('/settings/notifications',        [SettingsController::class, 'updateNotifications'])->name('settings.notifications');
-    Route::put('/settings/preferences',          [SettingsController::class, 'updatePreferences'])->name('settings.preferences');
-    Route::get('/settings/export',               [SettingsController::class, 'exportData'])->name('settings.export');
-    Route::delete('/settings/proposals',         [SettingsController::class, 'deleteProposals'])->name('settings.delete-proposals');
-    Route::delete('/settings/account',           [SettingsController::class, 'deleteAccount'])->name('settings.delete-account');
-    Route::post('/settings/sessions/revoke',     [SettingsController::class, 'revokeOtherSessions'])->name('settings.sessions.revoke');
+    // IMPORTANT: static segments must come before any potential wildcards
+    Route::get('/settings',                    [SettingsController::class, 'index'])->name('settings');
+    Route::get('/settings/search',             [SettingsController::class, 'search'])->name('settings.search');
+    Route::put('/settings/profile',            [SettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('/settings/password',           [SettingsController::class, 'updatePassword'])->name('settings.password');
+    Route::put('/settings/branding',           [SettingsController::class, 'updateBranding'])->name('settings.branding');
+    Route::put('/settings/notifications',      [SettingsController::class, 'updateNotifications'])->name('settings.notifications');
+    Route::put('/settings/preferences',        [SettingsController::class, 'updatePreferences'])->name('settings.preferences');
+    Route::get('/settings/export',             [SettingsController::class, 'exportData'])->name('settings.export');
+    Route::delete('/settings/proposals',       [SettingsController::class, 'deleteProposals'])->name('settings.delete-proposals');
+    Route::delete('/settings/account',         [SettingsController::class, 'deleteAccount'])->name('settings.delete-account');
+    Route::post('/settings/sessions/revoke',   [SettingsController::class, 'revokeOtherSessions'])->name('settings.sessions.revoke');
 
     // Billing
-    Route::get('/billing',                       [BillingController::class, 'index'])->name('billing');
-    Route::get('/billing/invoice/{id}',          [BillingController::class, 'invoice'])->name('billing.invoice');
-    Route::post('/billing/add-card',             [BillingController::class, 'addCard'])->name('billing.add-card');
-    Route::delete('/billing/remove-card',        [BillingController::class, 'removeCard'])->name('billing.remove-card');
-    Route::post('/billing/change-plan',          [BillingController::class, 'changePlan'])->name('billing.change-plan');
-    Route::delete('/billing/cancel',             [BillingController::class, 'cancel'])->name('billing.cancel');
+    // IMPORTANT: static segments must come before {id} wildcard
+    Route::get('/billing',                     [BillingController::class, 'index'])->name('billing');
+    Route::get('/billing/search',              [BillingController::class, 'search'])->name('billing.search');
+    Route::post('/billing/add-card',           [BillingController::class, 'addCard'])->name('billing.add-card');
+    Route::delete('/billing/remove-card',      [BillingController::class, 'removeCard'])->name('billing.remove-card');
+    Route::post('/billing/change-plan',        [BillingController::class, 'changePlan'])->name('billing.change-plan');
+    Route::delete('/billing/cancel',           [BillingController::class, 'cancel'])->name('billing.cancel');
+    Route::get('/billing/invoice/{id}',        [BillingController::class, 'invoice'])->name('billing.invoice');
 
     // Templates
-    Route::get('/templates',                              [TemplatesController::class, 'index'])->name('templates');
-    Route::post('/templates',                             [TemplatesController::class, 'store'])->name('templates.store');
-    Route::post('/templates/duplicate-library',           [TemplatesController::class, 'duplicateLibrary'])->name('templates.duplicate-library');
-    Route::post('/templates/{template}/duplicate',        [TemplatesController::class, 'duplicate'])->name('templates.duplicate');
-    Route::delete('/templates/{template}',                [TemplatesController::class, 'destroy'])->name('templates.delete');
+    // IMPORTANT: static segments must come before {template} wildcard
+    Route::get('/templates',                          [TemplatesController::class, 'index'])->name('templates');
+    Route::get('/templates/search',                   [TemplatesController::class, 'search'])->name('templates.search');
+    Route::post('/templates',                         [TemplatesController::class, 'store'])->name('templates.store');
+    Route::post('/templates/duplicate-library',       [TemplatesController::class, 'duplicateLibrary'])->name('templates.duplicate-library');
+    Route::post('/templates/{template}/duplicate',    [TemplatesController::class, 'duplicate'])->name('templates.duplicate');
+    Route::delete('/templates/{template}',            [TemplatesController::class, 'destroy'])->name('templates.delete');
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-// =============================================================
-
-// ── Admin Auth (guests only) ─────────────────────────────────
+// ── Admin Auth ────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('guest:admin')->group(function () {
@@ -170,17 +171,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Dashboard
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-        // client Users
+        // Client Users
         Route::prefix('users')->name('users.')->group(function () {
-            Route::get('/',                    [ClientUsersController::class, 'index'])->name('index');
-            Route::get('/{user}',              [ClientUsersController::class, 'show'])->name('show');
-            Route::patch('/{user}',            [ClientUsersController::class, 'update'])->name('update'); // ← ADD THIS
-            Route::patch('/{user}/suspend',    [ClientUsersController::class, 'suspend'])->name('suspend');
-            Route::patch('/{user}/unsuspend',  [ClientUsersController::class, 'unsuspend'])->name('unsuspend');
-            Route::delete('/{user}',           [ClientUsersController::class, 'destroy'])->name('destroy');
+            Route::get('/',                   [ClientUsersController::class, 'index'])->name('index');
+            Route::get('/{user}',             [ClientUsersController::class, 'show'])->name('show');
+            Route::patch('/{user}',           [ClientUsersController::class, 'update'])->name('update');
+            Route::patch('/{user}/suspend',   [ClientUsersController::class, 'suspend'])->name('suspend');
+            Route::patch('/{user}/unsuspend', [ClientUsersController::class, 'unsuspend'])->name('unsuspend');
+            Route::delete('/{user}',          [ClientUsersController::class, 'destroy'])->name('destroy');
         });
 
-        // admin Users
+        // Admin Users
         Route::prefix('admins')->name('admins.')->group(function () {
             Route::get('/',                   [AdminUsersController::class, 'index'])->name('index');
             Route::get('/{user}',             [AdminUsersController::class, 'show'])->name('show');
@@ -192,50 +193,50 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Plans
         Route::prefix('plans')->name('plans.')->group(function () {
-            Route::get('/',                     [AdminPlansController::class, 'index'])->name('index');
-            Route::get('/{plan}',               [AdminPlansController::class, 'show'])->name('show');
-            Route::post('/',                    [AdminPlansController::class, 'store'])->name('store');
-            Route::patch('/{plan}/toggle',      [AdminPlansController::class, 'toggle'])->name('toggle');
-            Route::post('/{plan}/general',      [AdminPlansController::class, 'updateGeneral'])->name('general');
-            Route::post('/{plan}/pricing',      [AdminPlansController::class, 'updatePricing'])->name('pricing');
-            Route::post('/{plan}/features',     [AdminPlansController::class, 'updateFeatures'])->name('features');
-            Route::post('/{plan}/limits',       [AdminPlansController::class, 'updateLimits'])->name('limits');
-            Route::post('/{plan}/archive',      [AdminPlansController::class, 'archive'])->name('archive');
-            Route::put('/{plan}',               [AdminPlansController::class, 'update'])->name('update');
-            Route::delete('/{plan}',            [AdminPlansController::class, 'destroy'])->name('destroy');
+            Route::get('/',                 [AdminPlansController::class, 'index'])->name('index');
+            Route::post('/',                [AdminPlansController::class, 'store'])->name('store');
+            Route::get('/{plan}',           [AdminPlansController::class, 'show'])->name('show');
+            Route::put('/{plan}',           [AdminPlansController::class, 'update'])->name('update');
+            Route::patch('/{plan}/toggle',  [AdminPlansController::class, 'toggle'])->name('toggle');
+            Route::post('/{plan}/general',  [AdminPlansController::class, 'updateGeneral'])->name('general');
+            Route::post('/{plan}/pricing',  [AdminPlansController::class, 'updatePricing'])->name('pricing');
+            Route::post('/{plan}/features', [AdminPlansController::class, 'updateFeatures'])->name('features');
+            Route::post('/{plan}/limits',   [AdminPlansController::class, 'updateLimits'])->name('limits');
+            Route::post('/{plan}/archive',  [AdminPlansController::class, 'archive'])->name('archive');
+            Route::delete('/{plan}',        [AdminPlansController::class, 'destroy'])->name('destroy');
         });
 
         // Revenue
         Route::prefix('revenue')->name('revenue.')->group(function () {
-            Route::get('/',                    [AdminRevenueController::class, 'index'])->name('index');
-            Route::get('/chart',               [AdminRevenueController::class, 'chartData'])->name('chart');
-            Route::get('/export',              [AdminRevenueController::class, 'export'])->name('export');
+            Route::get('/',       [AdminRevenueController::class, 'index'])->name('index');
+            Route::get('/chart',  [AdminRevenueController::class, 'chartData'])->name('chart');
+            Route::get('/export', [AdminRevenueController::class, 'export'])->name('export');
         });
 
         // Settings
         Route::prefix('settings')->name('settings.')->group(function () {
-            Route::get('/',                    [AdminSettingsController::class, 'index'])->name('index');
-            Route::post('/update',             [AdminSettingsController::class, 'update'])->name('update');
-            Route::post('/test-mail',          [AdminSettingsController::class, 'testMail'])->name('test-mail');
+            Route::get('/',           [AdminSettingsController::class, 'index'])->name('index');
+            Route::post('/update',    [AdminSettingsController::class, 'update'])->name('update');
+            Route::post('/test-mail', [AdminSettingsController::class, 'testMail'])->name('test-mail');
         });
 
         // Blog
         Route::prefix('blog')->name('blog.')->group(function () {
-            Route::get('/',          [AdminBlogController::class, 'index'])->name('index');
-            Route::get('/create',    [AdminBlogController::class, 'create'])->name('create');
+            Route::get('/',            [AdminBlogController::class, 'index'])->name('index');
+            Route::get('/create',      [AdminBlogController::class, 'create'])->name('create');
+            Route::post('/',           [AdminBlogController::class, 'store'])->name('store');
             Route::get('/{post}/show', [AdminBlogController::class, 'show'])->name('show');
-            Route::post('/',         [AdminBlogController::class, 'store'])->name('store');
             Route::get('/{post}/edit', [AdminBlogController::class, 'edit'])->name('edit');
-            Route::put('/{post}',    [AdminBlogController::class, 'update'])->name('update');
-            Route::delete('/{post}', [AdminBlogController::class, 'destroy'])->name('destroy');
+            Route::put('/{post}',      [AdminBlogController::class, 'update'])->name('update');
+            Route::delete('/{post}',   [AdminBlogController::class, 'destroy'])->name('destroy');
         });
 
         // Contacts
         Route::prefix('contacts')->name('contacts.')->group(function () {
-            Route::get('/',              [AdminContactsController::class, 'index'])->name('index');
-            Route::get('/{contact}',     [AdminContactsController::class, 'show'])->name('show');
-            Route::patch('/{contact}',   [AdminContactsController::class, 'update'])->name('update');
-            Route::delete('/{contact}',  [AdminContactsController::class, 'destroy'])->name('destroy');
+            Route::get('/',             [AdminContactsController::class, 'index'])->name('index');
+            Route::get('/{contact}',    [AdminContactsController::class, 'show'])->name('show');
+            Route::patch('/{contact}',  [AdminContactsController::class, 'update'])->name('update');
+            Route::delete('/{contact}', [AdminContactsController::class, 'destroy'])->name('destroy');
         });
     });
 });
