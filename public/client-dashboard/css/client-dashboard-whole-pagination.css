@@ -1,0 +1,18 @@
+/* ── Pagination override ─────────────────────────────────────── */
+.trk-pagination nav         { display: flex; align-items: center; gap: .25rem; }
+.trk-pagination .pagination { display: flex; align-items: center; gap: .25rem; list-style: none; margin: 0; padding: 0; }
+.trk-pagination .page-item .page-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 32px; height: 32px; padding: 0 .5rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: .8125rem; font-weight: 600;
+    color: var(--ink-60); background: #fff;
+    border: 1px solid var(--ink-10); text-decoration: none;
+    transition: all .15s;
+}
+.trk-pagination .page-item .page-link:hover        { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.trk-pagination .page-item.active .page-link        { background: var(--accent); border-color: var(--accent); color: #fff; }
+.trk-pagination .page-item.disabled .page-link      { opacity: .35; pointer-events: none; }
+/* Hide the ugly "Previous / Next" text — keep only arrow SVG */
+.trk-pagination .page-item:first-child .page-link span[aria-hidden],
+.trk-pagination .page-item:last-child  .page-link span[aria-hidden] { font-size: 1rem; line-height: 1; }

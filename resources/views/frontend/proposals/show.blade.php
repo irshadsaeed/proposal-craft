@@ -63,7 +63,7 @@
   @endif
 </head>
 
-<body data-proposal="{{ $proposal->token }}" data-track="1">
+<body data-token="{{ $proposal->token }}" data-csrf="{{ csrf_token() }}" data-proposal="{{ $proposal->token }}" data-track="1">
 
   {{-- ── PROGRESS BAR ──────────────────────────────────────── --}}
   <div class="pp-progress-bar" id="ppProgress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -549,6 +549,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
   <script src="{{ asset('frontend/js/public-proposal.js') }}" defer></script>
+  <script src="{{ asset('client-dashboard/js/proposal-tracker.js') }}" defer></script>
 
   {{-- Tracking bootstrap data --}}
   <script>

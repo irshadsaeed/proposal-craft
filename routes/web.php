@@ -14,6 +14,7 @@ use App\Http\Controllers\ClientBackend\ProposalController;
 use App\Http\Controllers\ClientBackend\SettingsController;
 use App\Http\Controllers\ClientBackend\BillingController;
 use App\Http\Controllers\ClientBackend\TemplatesController;
+use App\Http\Controllers\ClientBackend\TrackingController;
 
 use App\Http\Controllers\AdminBackend\AdminAuthController;
 use App\Http\Controllers\AdminBackend\ClientUsersController;
@@ -67,6 +68,7 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
 Route::prefix('p/{token}')->name('proposals.')->group(function () {
     Route::get('/',         [PublicProposalController::class, 'show'])->name('show');
     Route::get('/accepted', [PublicProposalController::class, 'accepted'])->name('accepted');
+    Route::post('/ping',    [PublicProposalController::class, 'ping'])->name('ping');
     Route::post('/track',   [PublicProposalController::class, 'track'])->name('track');
     Route::post('/accept',  [PublicProposalController::class, 'accept'])->name('accept');
     Route::post('/decline', [PublicProposalController::class, 'decline'])->name('decline');
@@ -94,7 +96,7 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 // ── Logout ────────────────────────────────────────────────────
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ── Backend (auth required) ───────────────────────────────────
+// ── client backend (auth required) ───────────────────────────────────
 Route::middleware('auth')->prefix('dashboard')->group(function () {
 
     // Dashboard + global search
@@ -102,23 +104,25 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/search', [DashboardController::class, 'search'])->name('dashboard.search');
 
     // Tracking
-    Route::get('/tracking',        [DashboardController::class, 'tracking'])->name('tracking');
-    Route::get('/tracking/export', [DashboardController::class, 'exportTracking'])->name('tracking.export');
+    Route::get('/tracking',        [TrackingController::class, 'index'])  ->name('tracking');
+    Route::get('/tracking/export', [TrackingController::class, 'export']) ->name('tracking.export');
 
     // Proposals
     // IMPORTANT: all static segments before {proposal} wildcard
-    Route::get('/proposals',                    [ProposalController::class, 'index'])->name('proposals');
-    Route::get('/proposals/search',             [ProposalController::class, 'search'])->name('proposals.search');
-    Route::get('/proposals/preview',            [ProposalController::class, 'proposalPreview'])->name('proposals.preview');
-    Route::get('/new-proposal',                 [ProposalController::class, 'newProposal'])->name('new-proposal');
+    Route::get('/proposals',                       [ProposalController::class, 'index'])->name('proposals');
+    Route::get('/proposals/search',                [ProposalController::class, 'search'])->name('proposals.search');
+    Route::get('/proposals/preview',               [ProposalController::class, 'proposalPreview'])->name('proposals.preview');
+    Route::get('/new-proposal',                    [ProposalController::class, 'newProposal'])->name('new-proposal');
 
-    Route::post('/proposals',                   [ProposalController::class, 'store'])->name('proposals.store');
-    Route::post('/proposals/send',              [ProposalController::class, 'send'])->name('proposals.send');
-
-    Route::get('/proposals/{proposal}/edit',    [ProposalController::class, 'edit'])->name('proposals.edit');
-    Route::put('/proposals/{proposal}',         [ProposalController::class, 'update'])->name('proposals.update');
+    Route::post('/proposals',                      [ProposalController::class, 'store'])->name('proposals.store');
+    Route::post('/proposals/send',                 [ProposalController::class, 'send'])->name('proposals.send');
+    Route::post('proposals/upload-image',          [ProposalController::class, 'uploadImage'])->name('proposals.upload-image');
+    
+    Route::get('/proposals/{proposal}/edit',       [ProposalController::class, 'edit'])->name('proposals.edit');
+    Route::get('/editor',                          [ProposalController::class, 'editor'])->name('editor');
+    Route::put('/proposals/{proposal}',            [ProposalController::class, 'update'])->name('proposals.update');
     Route::patch('/proposals/{proposal}/autosave', [ProposalController::class, 'autosave'])->name('proposals.autosave');
-    Route::delete('/proposals/{proposal}',      [ProposalController::class, 'destroy'])->name('proposals.destroy');
+    Route::delete('/proposals/{proposal}',         [ProposalController::class, 'destroy'])->name('proposals.destroy');
     
     
     // Settings
@@ -145,13 +149,26 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::delete('/billing/cancel',           [BillingController::class, 'cancel'])->name('billing.cancel');
     Route::get('/billing/invoice/{id}',        [BillingController::class, 'invoice'])->name('billing.invoice');
 
+
+    
     // Templates
     // IMPORTANT: static segments must come before {template} wildcard
+    // ── These two must come BEFORE the {template} wildcard ────────
+    Route::post ('templates/upload-image',           [TemplatesController::class, 'uploadImage'])     ->name('templates.upload-image');
+    
+    // ── Per-template CRUD ──────────────────────────────────────────
+    Route::patch('templates/{template}/autosave',    [TemplatesController::class, 'autosave'])        ->name('templates.autosave');
+    Route::put  ('templates/{template}',             [TemplatesController::class, 'update'])          ->name('templates.update');
+    Route::get  ('templates/{template}/preview',     [TemplatesController::class, 'templatesPreview'])->name('templates.preview');
+    Route::post ('templates/{template}/duplicate',   [TemplatesController::class, 'duplicate'])       ->name('templates.duplicate');
+  
     Route::get('/templates',                          [TemplatesController::class, 'index'])->name('templates');
     Route::get('/templates/search',                   [TemplatesController::class, 'search'])->name('templates.search');
+    Route::get('/templates/{template}/edit',          [TemplatesController::class, 'edit'])->name('templates.edit');
     Route::post('/templates',                         [TemplatesController::class, 'store'])->name('templates.store');
     Route::post('/templates/duplicate-library',       [TemplatesController::class, 'duplicateLibrary'])->name('templates.duplicate-library');
     Route::post('/templates/{template}/duplicate',    [TemplatesController::class, 'duplicate'])->name('templates.duplicate');
+    Route::get('/templates/{template}/preview',       [TemplatesController::class, 'templatesPreview'])->name('templates.preview');
     Route::delete('/templates/{template}',            [TemplatesController::class, 'destroy'])->name('templates.delete');
 });
 
@@ -273,3 +290,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // ========== specific migration =============
 
 // php artisan migrate --path=database/migrations/2026_03_10_142034_create_contacts_table.php
+
+
+
