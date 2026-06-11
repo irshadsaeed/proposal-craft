@@ -486,9 +486,9 @@
                 type="button"
                 aria-label="{{ $key }} theme"
                 title="{{ $key }}"
-                style="background:{{ $bg ?? 'var(--accent)' }}; color:{{ $text }}">
+                style="background:<?php echo $bg ?? 'var(--accent)'; ?>; color:<?php echo $text; ?>">
                 <span class="ep-layout-chip__name">{{ $key }}</span>
-                <span class="ep-layout-chip__badge" style="background:{{ $text }}; color:{{ $bg ?? 'var(--accent)' }}">{{ $group }}</span>
+                <span class="ep-layout-chip__badge" style="background:<?php echo $text; ?>; color:<?php echo $bg ?? 'var(--accent)'; ?>">{{ $group }}</span>
               </button>
             @endforeach
           </div>
@@ -618,13 +618,13 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  window.PROPOSAL_ID      = {{ isset($proposal) ? $proposal->id : 'null' }};
+  window.PROPOSAL_ID      = <?php echo isset($proposal) ? $proposal->id : 'null'; ?>;
   window.AUTOSAVE_URL     = '{{ isset($proposal) ? route("proposals.autosave", $proposal->id) : "" }}';
   window.STORE_URL        = '{{ route("proposals.store") }}';
   window.IMAGE_UPLOAD_URL = '{{ route("proposals.upload-image") }}';
   window.CSRF             = '{{ csrf_token() }}';
 
-  @php
+  <?php
     $savedSections = [];
     if (isset($proposal)) {
         foreach ($proposal->sections as $s) {
@@ -639,11 +639,11 @@
     } elseif (!empty($templateSections)) {
         $savedSections = $templateSections;
     }
-  @endphp
+  ?>
 
-  window.SAVED_SECTIONS = @json($savedSections);
-  window.TEMPLATE_NAME  = @json($templateName  ?? '');
-  window.TEMPLATE_COLOR = @json($templateColor ?? '');
+  window.SAVED_SECTIONS = <?php echo json_encode($savedSections); ?>;
+  window.TEMPLATE_NAME  = <?php echo json_encode($templateName  ?? ''); ?>;
+  window.TEMPLATE_COLOR = <?php echo json_encode($templateColor ?? ''); ?>;
 </script>
 <script src="{{ asset('client-dashboard/js/new-proposal.js') }}"></script>
 @endpush

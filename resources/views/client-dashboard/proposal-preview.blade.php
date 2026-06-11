@@ -16,8 +16,8 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2309090f'/><text y='22' x='7' font-size='18' fill='white' font-family='Georgia,serif' font-style='italic'>P</text></svg>" />
   <link rel="stylesheet" href="{{ asset('client-dashboard/css/proposal-preview.css') }}" />
 
-{{-- ══ PHP DATA LAYER — must be before dynamic <style> uses variables ══ --}}
-@php
+<!-- ══ PHP DATA LAYER — must be before dynamic <style> uses variables ══ -->
+<?php
   /* ── Symbol map ── */
   $sym_map = ['USD' => '$', 'GBP' => '£', 'EUR' => '€', 'AED' => 'د.إ', 'INR' => '₹', 'CAD' => 'CA$'];
 
@@ -148,26 +148,26 @@
   $eyebrowColor = $eyebrowColors[$coverLayout] ?? '#3b82f6';
 @endphp
 
-  {{-- ── Dynamic styles from saved editor data ── --}}
-  <link href="https://fonts.googleapis.com/css2?family={{ urlencode($fontStyle) }}:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet" />
+  <!-- ── Dynamic styles from saved editor data ── -->
+  <link href="https://fonts.googleapis.com/css2?family=<?php echo urlencode($fontStyle); ?>:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --pp-blue:        {{ $accentColor }};
-      --pp-blue-mid:    {{ $accentColor }};
-      --pp-blue-lt:     {{ $accentColor }};
-      --pp-blue-glow:   {{ $accentColor }}55;
-      --pp-blue-dim:    {{ $accentDim }};
-      --pp-user-accent: {{ $accentColor }};
+      --pp-blue:        <?php echo $accentColor; ?>;
+      --pp-blue-mid:    <?php echo $accentColor; ?>;
+      --pp-blue-lt:     <?php echo $accentColor; ?>;
+      --pp-blue-glow:   <?php echo $accentColor; ?>55;
+      --pp-blue-dim:    <?php echo $accentDim; ?>;
+      --pp-user-accent: <?php echo $accentColor; ?>;
     }
     .pp-cover-title, .pp-cover-brand,
     .pp-section-heading, .pp-sig-heading,
     .pp-signed-heading,
     .pp-pricing-table .pp-total-row td,
     .pp-total-only__amount {
-      font-family: "{{ $fontStyle }}", Georgia, serif !important;
+      font-family: "<?php echo $fontStyle; ?>", Georgia, serif !important;
     }
     .pp-eyebrow,
-    .pp-cover-eyebrow        { color: {{ $eyebrowColor }}; }
+    .pp-cover-eyebrow        { color: <?php echo $eyebrowColor; ?>; }
     .pp-eyebrow::before,
     .pp-cover-eyebrow::before { background: {{ $eyebrowColor }}; }
   </style>

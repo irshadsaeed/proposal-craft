@@ -105,7 +105,7 @@
         ];
       @endphp
       @foreach($stats as $i => $s)
-      <div class="sp-stat-card reveal-up" style="--delay:{{ $i * 0.06 }}s">
+      <div class="sp-stat-card reveal-up" style="--delay:<?php echo $i * 0.06; ?>s">
         <div class="sp-stat-num">{{ $s['num'] }}</div>
         <div class="sp-stat-label">{{ $s['label'] }}</div>
         <div class="sp-stat-sub">{{ $s['sub'] }}</div>
@@ -139,7 +139,7 @@
 
     <div class="sp-masonry">
       @foreach($testimonials as $i => $t)
-      <div class="sp-tcard {{ $t['featured'] ? 'sp-tcard-featured' : '' }} reveal-up" style="--delay:{{ ($i % 3) * 0.1 }}s">
+      <div class="sp-tcard {{ $t['featured'] ? 'sp-tcard-featured' : '' }} reveal-up" style="--delay:<?php echo ($i % 3) * 0.1; ?>s">
         <div class="sp-tcard-stars" aria-label="{{ $t['stars'] }} stars">
           @for($s=0; $s < $t['stars']; $s++) ★ @endfor
         </div>

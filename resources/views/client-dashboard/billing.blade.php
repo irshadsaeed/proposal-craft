@@ -66,10 +66,10 @@
           </div>
           <div class="usage-bar-track">
             <div class="usage-bar-fill"
-              style="width:{{ $u['pct'] }}%;
-                       background:{{ $u['pct'] >= 90
+              style="width:<?php echo $u['pct']; ?>%;
+                       background:<?php echo $u['pct'] >= 90
                          ? 'var(--red)'
-                         : ($u['pct'] >= 70 ? 'var(--orange)' : 'var(--accent)') }};">
+                         : ($u['pct'] >= 70 ? 'var(--orange)' : 'var(--accent)'); ?>;">
             </div>
           </div>
         </div>
@@ -373,7 +373,7 @@
    Fix 1: CURRENT_PLAN is injected from PHP, not hardcoded
    Fix 2: plan-cards-grid now renders 3 columns (Free/Pro/Team)
    ──────────────────────────────────────────────────────────── */
-  const CURRENT_PLAN = @json(auth()->user()-> plan ?? 'free');
+  const CURRENT_PLAN = <?php echo json_encode(auth()->user()->plan ?? 'free'); ?>;
 
   const PLANS = {
     monthly: [{
@@ -523,8 +523,7 @@
      Fix: card data never touches our server — Stripe tokenises it.
      We only POST the resulting PaymentMethod ID.
      ──────────────────────────────────────────────────────────── */
-  const stripe = Stripe('{{ config('
-    services.stripe.key ') }}');
+  const stripe = Stripe('<?php echo config('services.stripe.key'); ?>');
   const elements = stripe.elements();
 
   const cardElement = elements.create('card', {

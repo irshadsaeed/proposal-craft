@@ -198,7 +198,7 @@
       @endphp
 
       @foreach($scores as $i => $s)
-      <div class="cp-score-card {{ $i === 0 ? 'cp-score-hero' : '' }} reveal-up" style="--delay:{{ $i * 0.08 }}s">
+      <div class="cp-score-card {{ $i === 0 ? 'cp-score-hero' : '' }} reveal-up" style="--delay:<?php echo $i * 0.08; ?>s">
         <div class="cp-score-head">
           <span class="cp-score-name">{{ $s['name'] }}</span>
           <span class="cp-score-price">{{ $s['price'] }}</span>
@@ -246,7 +246,7 @@
         ];
       @endphp
       @foreach($switchers as $i => $sw)
-      <div class="cp-switcher reveal-up" style="--delay:{{ $i * 0.1 }}s">
+      <div class="cp-switcher reveal-up" style="--delay:<?php echo $i * 0.1; ?>s">
         <div class="cp-from-badge">Switched from {{ $sw['from'] }}</div>
         <blockquote class="cp-sw-quote">"{{ $sw['quote'] }}"</blockquote>
         <div class="cp-sw-author">

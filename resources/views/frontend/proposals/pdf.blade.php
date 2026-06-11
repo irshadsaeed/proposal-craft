@@ -115,14 +115,14 @@
                 $sm=['pending'=>['#1C2D5E','#E8A838','Awaiting Review'],'viewed'=>['#162454','#4D78F5','Under Review'],'accepted'=>['#0A2E1E','#0DBD7F','Accepted'],'declined'=>['#2E0A12','#F04060','Declined']];
                 $s=$sm[$proposal->status]??$sm['pending'];
                 @endphp
-                <table width="100%" cellpadding="0" cellspacing="0" style="background:{{ $s[0] }};">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:<?php echo $s[0]; ?>;">
                     <tr>
                         <td style="padding:14px 18px;" valign="middle">
                             <div style="font-size:6pt;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px;">Total Investment</div>
                             <div style="font-size:20pt;font-weight:700;color:#fff;letter-spacing:-0.02em;">${{ number_format($proposal->amount??0,2) }}</div>
                         </td>
                         <td style="padding:14px 18px;" valign="middle" align="right">
-                            <div style="font-size:7pt;font-weight:700;color:{{ $s[1] }};text-transform:uppercase;letter-spacing:0.06em;">{{ $s[2] }}</div>
+                            <div style="font-size:7pt;font-weight:700;color:<?php echo $s[1]; ?>;text-transform:uppercase;letter-spacing:0.06em;">{{ $s[2] }}</div>
                         </td>
                     </tr>
                 </table>
@@ -217,7 +217,7 @@
                                 <tbody>
                                     @if(is_array($items))
                                     @foreach($items as $i=>$item)
-                                    <tr style="background:{{ $i%2===0?'#fff':'#F8F9FC' }};">
+                                    <tr style="background:<?php echo $i%2===0?'#fff':'#F8F9FC'; ?>;">
                                         <td style="padding:8px 10px;border-bottom:1px solid #EDF0F7;font-size:8.5pt;font-weight:600;color:#0D0F14;">{{ $item['name']??'—' }}</td>
                                         <td style="padding:8px 10px;border-bottom:1px solid #EDF0F7;font-size:7.5pt;color:#8B95A6;">{{ $item['description']??'' }}</td>
                                         <td style="padding:8px 10px;border-bottom:1px solid #EDF0F7;font-size:8.5pt;color:#374151;text-align:center;">{{ $item['quantity']??1 }}</td>

@@ -41,7 +41,7 @@
       @foreach($plans as $i => $plan)
       <article
         class="pr-card {{ $plan->is_popular ? 'pr-card-popular' : '' }} reveal-up"
-        style="--delay:{{ $i * 0.1 }}s"
+        style="--delay:<?php echo $i * 0.1; ?>s"
         data-plan="{{ $plan->slug }}"
         aria-label="{{ $plan->name }} plan"
       >
@@ -261,7 +261,7 @@
     </div>
     <div class="pr-faq-grid">
       @foreach($faqs as $i => $faq)
-      <div class="pr-faq-item reveal-up" style="--delay:{{ ($i % 2) * 0.08 }}s">
+      <div class="pr-faq-item reveal-up" style="--delay:<?php echo ($i % 2) * 0.08; ?>s">
         <button class="pr-faq-q" aria-expanded="false" aria-controls="faq-a-{{ $i }}" type="button">
           <span>{{ $faq['q'] }}</span>
           <svg class="pr-faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>

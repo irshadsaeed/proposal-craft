@@ -1,4 +1,7 @@
-@extends('client-dashboard.layouts.client')
+@extends('layouts.backend')
+
+@section('title', 'Dashboard')
+@section('page_title', 'Dashboard')
 
 @section('content')
 

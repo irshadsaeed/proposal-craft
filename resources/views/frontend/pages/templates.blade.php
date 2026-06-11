@@ -335,7 +335,7 @@
         ];
       @endphp
       @foreach($steps as $i => $s)
-      <div class="tpl-step reveal-up" style="--delay:{{ $i * 0.1 }}s">
+      <div class="tpl-step reveal-up" style="--delay:<?php echo $i * 0.1; ?>s">
         <div class="tpl-step-num" aria-hidden="true">{{ $s['num'] }}</div>
         <h3 class="tpl-step-title">{{ $s['title'] }}</h3>
         <p class="tpl-step-body">{{ $s['body'] }}</p>

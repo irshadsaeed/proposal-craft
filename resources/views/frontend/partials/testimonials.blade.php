@@ -42,7 +42,7 @@
             <div class="rating-row">
               <span style="flex-shrink:0;width:3.5rem">{{ $row['stars'] }}</span>
               <div class="rating-bar-track" role="progressbar" aria-valuenow="{{ $row['pct'] }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ $row['stars'] }}: {{ $row['pct'] }}%">
-                <div class="rating-bar-fill" style="width:{{ $row['pct'] }}%"></div>
+                <div class="rating-bar-fill" style="width:<?php echo $row['pct']; ?>%"></div>
               </div>
               <span class="rating-pct">{{ $row['pct'] }}%</span>
             </div>
@@ -76,7 +76,7 @@
             <div
               class="author-avatar"
               aria-hidden="true"
-              style="background:{{ $testimonial['avatar_bg'] ?? 'var(--accent-dim)' }};color:{{ $testimonial['avatar_color'] ?? 'var(--accent)' }}">
+              style="background:<?php echo $testimonial['avatar_bg'] ?? 'var(--accent-dim)'; ?>;color:<?php echo $testimonial['avatar_color'] ?? 'var(--accent)'; ?>">
               {{ strtoupper(substr($testimonial['name'], 0, 1)) }}
             </div>
             <div class="author-info">
